@@ -11,6 +11,10 @@ public class PropertiesAttribute : TestClassAttribute, IConfiguration
 
     public override TestMethodAttribute GetTestMethodAttribute(TestMethodAttribute testMethodAttribute)
     {
+        if (testMethodAttribute is PropertyAttribute propertyAttribute)
+        {
+            testMethodAttribute = new PropertyAttribute(propertyAttribute.DisplayName, this);
+        }
         return base.GetTestMethodAttribute(testMethodAttribute);
     }
 }
