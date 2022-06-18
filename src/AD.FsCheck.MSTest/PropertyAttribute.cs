@@ -39,15 +39,17 @@ public class PropertyAttribute : TestMethodAttribute, IConfiguration
 
     T GetEffectiveValue<T>(Func<IConfiguration, T> getter, Predicate<T> isSet)
     {
-        var value = getter(this);
-        if (isSet(value)) return value;
-
+        if (TryGetValue(this, out var value)) return value;
         if (Inherited is not null)
         {
-            value = getter(Inherited);
-            if (isSet(value)) return value;
+            if (TryGetValue(Inherited, out value)) return value;
         }
-
         return getter(Default);
+
+        bool TryGetValue(IConfiguration configuration, out T value)
+        {
+            value = getter(configuration);
+            return isSet(value);
+        }
     }
 }
