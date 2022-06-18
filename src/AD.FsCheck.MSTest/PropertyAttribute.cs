@@ -6,7 +6,7 @@
 [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
 public class PropertyAttribute : TestMethodAttribute, IConfiguration
 {
-    readonly IConfiguration? inheritedConfiguration;
+    static readonly RunConfiguration DefaultRunConifguration = Configuration.QuickThrowOnFailure.ToRunConfiguration();
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PropertyAttribute"/> class.
@@ -21,16 +21,33 @@ public class PropertyAttribute : TestMethodAttribute, IConfiguration
     public PropertyAttribute(string displayName) : base(displayName)
     { }
 
-    internal PropertyAttribute(string displayName, IConfiguration inheritedConfiguration) : this(displayName)
+    protected virtual RunConfiguration Default => DefaultRunConifguration;
+
+    internal PropertiesAttribute? Inherited { get; set; }
+
+    /// <summary>
+    /// The maximum number of tests that are run.
+    /// </summary>
+    public int MaxNbOfTest { get; set; } = -1;
+
+    public override MSTestResult[] Execute(ITestMethod testMethod)
     {
-        this.inheritedConfiguration = inheritedConfiguration;
+        RunConfiguration config = new(GetEffectiveValue(_ => _.MaxNbOfTest, _ => _ > -1));
+
+        return base.Execute(testMethod);
     }
 
-    /// <inheritdoc/>
-    public int MaxNbOfTest { get; set; }
-
-    public override TestResult[] Execute(ITestMethod testMethod)
+    T GetEffectiveValue<T>(Func<IConfiguration, T> getter, Predicate<T> isSet)
     {
-        return base.Execute(testMethod);
+        var value = getter(this);
+        if (isSet(value)) return value;
+
+        if (Inherited is not null)
+        {
+            value = getter(Inherited);
+            if (isSet(value)) return value;
+        }
+
+        return getter(Default);
     }
 }

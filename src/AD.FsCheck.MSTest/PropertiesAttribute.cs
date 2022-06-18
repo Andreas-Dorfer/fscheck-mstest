@@ -6,14 +6,16 @@
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
 public class PropertiesAttribute : TestClassAttribute, IConfiguration
 {
-    /// <inheritdoc/>
-    public int MaxNbOfTest { get; set; }
+    /// <summary>
+    /// The maximum number of tests that are run.
+    /// </summary>
+    public int MaxNbOfTest { get; set; } = -1;
 
     public override TestMethodAttribute GetTestMethodAttribute(TestMethodAttribute testMethodAttribute)
     {
         if (testMethodAttribute is PropertyAttribute propertyAttribute)
         {
-            testMethodAttribute = new PropertyAttribute(propertyAttribute.DisplayName, this);
+            propertyAttribute.Inherited = this;
         }
         return base.GetTestMethodAttribute(testMethodAttribute);
     }
