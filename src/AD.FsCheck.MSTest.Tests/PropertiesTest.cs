@@ -4,7 +4,7 @@ namespace AD.FsCheck.MSTest.Tests;
 public class PropertiesTest1
 {
     [Property]
-    public void Default()
+    public void Default(int x)
     {
     }
 }
