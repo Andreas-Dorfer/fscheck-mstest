@@ -13,7 +13,7 @@ public class PropertiesTest1
 public class PropertiesTest2
 {
     [Property(MaxNbOfTest = 10)]
-    public void Prop()
+    public void Prop(int x)
     {
     }
 }
@@ -22,13 +22,13 @@ public class PropertiesTest2
 public class PropertiesTest3
 {
     [Property]
-    public void ClassOnly()
+    public void ClassOnly(int x)
     {
     }
 
 
     [Property(MaxNbOfTest = 30)]
-    public void ClassAndPropOnly()
+    public void ClassAndPropOnly(int x)
     {
     }
 }

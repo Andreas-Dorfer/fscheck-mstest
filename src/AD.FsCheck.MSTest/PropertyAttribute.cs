@@ -58,7 +58,7 @@ public class PropertyAttribute : TestMethodAttribute, IRunConfiguration
             2 => Invoke2Info,
             3 => Invoke3Info,
             4 => Invoke4Info,
-            _ => throw new InvalidOperationException($"The number of property parameters is limited to eight. The actual number is {parameters.Length}.")
+            _ => throw new InvalidOperationException($"The number of property parameters is limited to four. The actual number is {parameters.Length}.")
         };
         var invokeInfo = genericInvokeInfo.MakeGenericMethod(parameters.Select(_ => _.ParameterType).ToArray());
 
