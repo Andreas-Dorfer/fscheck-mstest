@@ -34,20 +34,21 @@ public partial class PropertyAttribute : TestMethodAttribute, IRunConfiguration
     public override MSTestResult[] Execute(ITestMethod testMethod)
     {
         var runConfig = this.OrElse(Parent).OrElse(Default);
+        MSTestRunner runner = new();
         var fsCheckConfig = new Configuration
         {
             MaxNbOfTest = runConfig.MaxNbOfTest,
+            Runner = runner
         };
-        return Invoke(testMethod, fsCheckConfig);
+        Invoke(testMethod, fsCheckConfig);
+        return new[] { runner.Result! };
     }
 
-    MSTestResult[] Invoke(ITestMethod testMethod, Configuration fsCheckConfig)
+    void Invoke(ITestMethod testMethod, Configuration fsCheckConfig)
     {
         var parameters = testMethod.ParameterTypes;
         var invokeInfo = GetInvokeMethodInfo(parameters.Length).MakeGenericMethod(parameters.Select(_ => _.ParameterType).ToArray());
 
-        List<MSTestResult> results = new();
-        ((Property)invokeInfo.Invoke(null, new object[] { (object[] values) => results.Add(testMethod.Invoke(values)) })!).Check(fsCheckConfig);
-        return results.ToArray();
+        ((Property)invokeInfo.Invoke(null, new object[] { void (object[] values) => testMethod.Invoke(values) })!).Check(fsCheckConfig);
     }
 }
