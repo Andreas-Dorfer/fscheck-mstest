@@ -7,8 +7,40 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="PropertyAttribute.Invoke.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>PropertyAttribute.Invoke.tt</DependentUpon>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="FsCheck" Version="2.16.5" />
     <PackageReference Include="MSTest.TestFramework" Version="2.2.10" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="PropertyAttribute.Invoke.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>PropertyAttribute.Invoke.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Invoke.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Invoke.tt</DependentUpon>
+    </Compile>
+    <Compile Update="PropertyAttribute.Invoke.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>PropertyAttribute.Invoke.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
 
 </Project>
