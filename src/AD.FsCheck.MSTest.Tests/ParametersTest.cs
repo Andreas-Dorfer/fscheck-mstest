@@ -12,9 +12,7 @@ public class ParametersTest : CommandLineTest
 
     [CommandLine(true), Property]
     public void Zero_parameters()
-    {
-
-    }
+    { }
 
     [CommandLine(false), TestMethod]
     public async Task Zero_parameters_test()
@@ -29,9 +27,7 @@ public class ParametersTest : CommandLineTest
 
     [CommandLine(true), Property]
     public void One_parameter(int a)
-    {
-
-    }
+    { }
 
     [CommandLine(false), TestMethod]
     public async Task One_parameter_test() => await AssertSuccess(nameof(One_parameter));
@@ -42,9 +38,7 @@ public class ParametersTest : CommandLineTest
 
     [CommandLine(true), Property]
     public void Two_parameters(int a, int b)
-    {
-
-    }
+    { }
 
     [CommandLine(false), TestMethod]
     public async Task Two_parameters_test() => await AssertSuccess(nameof(Two_parameters));
@@ -55,12 +49,54 @@ public class ParametersTest : CommandLineTest
 
     [CommandLine(true), Property]
     public void Three_parameters(int a, int b, int c)
-    {
-
-    }
+    { }
 
     [CommandLine(false), TestMethod]
     public async Task Three_parameters_test() => await AssertSuccess(nameof(Three_parameters));
+
+    #endregion
+
+    #region Four
+
+    [CommandLine(true), Property]
+    public void Four_parameters(int a, int b, int c, int d)
+    { }
+
+    [CommandLine(false), TestMethod]
+    public async Task Four_parameters_test() => await AssertSuccess(nameof(Four_parameters));
+
+    #endregion
+
+    #region Five
+
+    [CommandLine(true), Property]
+    public void Five_parameters(int a, int b, int c, int d, int e)
+    { }
+
+    [CommandLine(false), TestMethod]
+    public async Task Five_parameters_test() => await AssertSuccess(nameof(Five_parameters));
+
+    #endregion
+
+    #region Six
+
+    [CommandLine(true), Property]
+    public void Six_parameters(int a, int b, int c, int d, int e, int f)
+    { }
+
+    [CommandLine(false), TestMethod]
+    public async Task Six_parameters_test() => await AssertSuccess(nameof(Six_parameters));
+
+    #endregion
+
+    #region Seven
+
+    [CommandLine(true), Property]
+    public void Seven_parameters(int a, int b, int c, int d, int e, int f, int g)
+    { }
+
+    [CommandLine(false), TestMethod]
+    public async Task Seven_parameters_test() => await AssertSuccess(nameof(Seven_parameters));
 
     #endregion
 }
