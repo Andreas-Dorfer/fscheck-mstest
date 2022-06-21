@@ -99,6 +99,21 @@ public class ParametersTest : CommandLineTest
     public async Task Seven_parameters_test() => await AssertSuccess(nameof(Seven_parameters));
 
     #endregion
+
+    #region Eight
+
+    [CommandLine(true), Property]
+    public void Eight_parameters(int a, int b, int c, int d, int e, int f, int g, int h)
+    { }
+
+    [CommandLine(false), TestMethod]
+    public async Task Eight_parameters_test()
+    {
+        var errorMsg = await Run(nameof(Eight_parameters), Fetch.StdErr);
+        Assert.AreEqual("The number of property parameters is limited to 7. The actual number is 8.", errorMsg);
+    }
+
+    #endregion
 }
 
 #pragma warning restore IDE0060 // Remove unused parameter
