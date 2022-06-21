@@ -6,6 +6,12 @@ namespace AD.FsCheck.MSTest.Tests;
 
 public abstract class CommandLineTest
 {
+    public enum Fetch
+    {
+        StdOut,
+        StdErr
+    }
+
     public const string EnvironmentVariable = "CommandLine";
 
     static readonly Regex SuccessRegex = new(@"^Ok, passed \d+ tests.$");
@@ -19,15 +25,15 @@ public abstract class CommandLineTest
 
     protected async Task AssertSuccess(string testName)
     {
-        var result = await Run(testName);
+        var result = await Run(testName, Fetch.StdOut);
         Assert.IsTrue(SuccessRegex.IsMatch(result));
     }
 
-    async Task<string> Run(string testName)
+    protected async Task<string> Run(string testName, Fetch fetch)
     {
         var fileName = CreateTestFileName();
         await RunCommandLineTest(testName, fileName);
-        var output = await FetchTestOutput(fileName);
+        var output = await FetchTestOutput(fileName, fetch);
         File.Delete(fileName);
         return output;
     }
@@ -37,13 +43,20 @@ public abstract class CommandLineTest
     async Task RunCommandLineTest(string testName, string fileName) =>
         await Process.Start("dotnet.exe", $@"test ..\..\..\. --no-build --environment {EnvironmentVariable}=true --logger ""trx;LogFileName={fileName}"" --filter ""FullyQualifiedName=AD.FsCheck.MSTest.Tests.{className}.{testName}""").WaitForExitAsync();
 
-    static async Task<string> FetchTestOutput(string fileName)
+    static async Task<string> FetchTestOutput(string fileName, Fetch fetch)
     {
         string output;
         using var reader = new StreamReader(fileName);
         var result = await XDocument.LoadAsync(reader, LoadOptions.None, CancellationToken.None);
-        output = result.Descendants(XName.Get("StdOut", "http://microsoft.com/schemas/VisualStudio/TeamTest/2010")).Single().Value;
+        output = result.Descendants(XName.Get(GetFetchName(fetch), "http://microsoft.com/schemas/VisualStudio/TeamTest/2010")).Single().Value;
 
         return output;
     }
+
+    static string GetFetchName(Fetch fetch) =>
+        fetch switch
+        {
+            Fetch.StdErr => "StdErr",
+            _ => "StdOut"
+        };
 }

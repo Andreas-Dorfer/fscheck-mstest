@@ -1,4 +1,6 @@
-﻿namespace AD.FsCheck.MSTest;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace AD.FsCheck.MSTest;
 
 /// <summary>
 /// Run this method as an FsCheck test.
@@ -40,15 +42,22 @@ public partial class PropertyAttribute : TestMethodAttribute, IRunConfiguration
             MaxNbOfTest = runConfig.MaxNbOfTest,
             Runner = runner
         };
-        Invoke(testMethod, fsCheckConfig);
-        return new[] { runner.Result! };
+        if (TryInvoke(testMethod, fsCheckConfig, out var errorMsg))
+        {
+            return new[] { runner.Result! };
+        }
+        return new[] { new MSTestResult { Outcome = UnitTestOutcome.NotRunnable, LogError = errorMsg } };
     }
 
-    void Invoke(ITestMethod testMethod, Configuration fsCheckConfig)
+    bool TryInvoke(ITestMethod testMethod, Configuration fsCheckConfig, [NotNullWhen(false)] out string? errorMsg)
     {
         var parameters = testMethod.ParameterTypes;
-        var invokeInfo = GetInvokeMethodInfo(parameters.Length).MakeGenericMethod(parameters.Select(_ => _.ParameterType).ToArray());
-
-        ((Property)invokeInfo.Invoke(null, new object[] { void (object[] values) => testMethod.Invoke(values) })!).Check(fsCheckConfig);
+        if (TryGetInvokeMethodInfo(parameters.Length, out var methodInfo, out errorMsg))
+        {
+            var invokeInfo = methodInfo.MakeGenericMethod(parameters.Select(_ => _.ParameterType).ToArray());
+            ((Property)invokeInfo.Invoke(null, new object[] { void (object[] values) => testMethod.Invoke(values) })!).Check(fsCheckConfig);
+            return true;
+        }
+        return false;
     }
 }
