@@ -16,7 +16,7 @@ public abstract class CommandLineTest
 
     static readonly Regex SuccessRegex = new(@"^Ok, passed (\d+) tests.$");
 
-    private readonly string className;
+    readonly string className;
 
     public CommandLineTest(string className)
     {
