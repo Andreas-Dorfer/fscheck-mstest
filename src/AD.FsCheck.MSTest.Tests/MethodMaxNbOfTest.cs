@@ -5,10 +5,10 @@
 [TestClass]
 public class MethodMaxNbOfTest : CommandLineTest
 {
+    const int MaxNbOfTest = 30;
+
     public MethodMaxNbOfTest() : base(nameof(MethodMaxNbOfTest))
     { }
-
-    const int MaxNbOfTest = 30;
 
     [CommandLine(true), Property(MaxNbOfTest = MaxNbOfTest)]
     public void Method(int a)
