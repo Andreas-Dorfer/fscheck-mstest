@@ -47,12 +47,9 @@ public abstract class CommandLineTest
 
     static async Task<string> FetchTestOutput(string fileName, Fetch fetch)
     {
-        string output;
         using var reader = new StreamReader(fileName);
         var result = await XDocument.LoadAsync(reader, LoadOptions.None, CancellationToken.None);
-        output = result.Descendants(XName.Get(GetFetchName(fetch), "http://microsoft.com/schemas/VisualStudio/TeamTest/2010")).Single().Value;
-
-        return output;
+        return result.Descendants(XName.Get(GetFetchName(fetch), "http://microsoft.com/schemas/VisualStudio/TeamTest/2010")).Single().Value;
     }
 
     static string GetFetchName(Fetch fetch) =>
