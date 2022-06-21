@@ -3,7 +3,13 @@ namespace AD.FsCheck.MSTest.Tests;
 [TestClass]
 public class PropertiesTest1
 {
-    [Property]
+    [RunWhenSet("Foo")]
+    public void Foo()
+    {
+
+    }
+
+    [RunWhenSet("Foo"), Property]
     public void Default(int x)
     {
     }
