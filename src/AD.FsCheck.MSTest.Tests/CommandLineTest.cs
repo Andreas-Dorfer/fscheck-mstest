@@ -14,8 +14,6 @@ public abstract class CommandLineTest
 
     public const string EnvironmentVariable = "CommandLine";
 
-    static readonly Regex SuccessRegex = new(@"^Ok, passed (\d+) tests.$");
-
     readonly string className;
 
     public CommandLineTest(string className)
@@ -26,7 +24,7 @@ public abstract class CommandLineTest
     protected async Task<int> AssertSuccess(string testName)
     {
         var result = await Run(testName, Fetch.StdOut);
-        var match = SuccessRegex.Match(result);
+        var match = Regex.Match(result, @"^Ok, passed (\d+) tests.$");
         Assert.IsTrue(match.Success);
         return int.Parse(match.Groups[1].Value);
     }
