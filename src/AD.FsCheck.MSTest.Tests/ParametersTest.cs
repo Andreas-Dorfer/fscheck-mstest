@@ -1,5 +1,7 @@
 ﻿namespace AD.FsCheck.MSTest.Tests;
 
+#pragma warning disable IDE0060 // Remove unused parameter
+
 [TestClass]
 public class ParametersTest : CommandLineTest
 {
@@ -35,4 +37,32 @@ public class ParametersTest : CommandLineTest
     public async Task One_parameter_test() => await AssertSuccess(nameof(One_parameter));
 
     #endregion
+
+    #region Two
+
+    [CommandLine(true), Property]
+    public void Two_parameters(int a, int b)
+    {
+
+    }
+
+    [CommandLine(false), TestMethod]
+    public async Task Two_parameters_test() => await AssertSuccess(nameof(Two_parameters));
+
+    #endregion
+
+    #region Three
+
+    [CommandLine(true), Property]
+    public void Three_parameters(int a, int b, int c)
+    {
+
+    }
+
+    [CommandLine(false), TestMethod]
+    public async Task Three_parameters_test() => await AssertSuccess(nameof(Three_parameters));
+
+    #endregion
 }
+
+#pragma warning restore IDE0060 // Remove unused parameter
