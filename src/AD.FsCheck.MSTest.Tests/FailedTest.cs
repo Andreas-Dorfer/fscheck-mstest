@@ -12,11 +12,7 @@ public class FailedTest : CommandLineTest
     public void Failing_property(int a) => Assert.Fail();
 
     [TestMethod]
-    public async Task Failing_property_test()
-    {
-        var errorMsg = await Run(nameof(Failing_property), Fetch.StdErr);
-        Assert.IsTrue(errorMsg.StartsWith("Falsifiable,"));
-    }
+    public async Task Failing_property_test() => await AssertFalsifiable(nameof(Failing_property));
 }
 
 #pragma warning restore IDE0060 // Remove unused parameter

@@ -29,6 +29,12 @@ public abstract class CommandLineTest
         return int.Parse(match.Groups[1].Value);
     }
 
+    protected async Task AssertFalsifiable(string testName)
+    {
+        var result = await Run(testName, Fetch.StdErr);
+        Assert.IsTrue(result.StartsWith("Falsifiable"));
+    }
+
     protected async Task<string> Run(string testName, Fetch fetch)
     {
         var fileName = CreateTestFileName();
