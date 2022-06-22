@@ -19,7 +19,7 @@ for(int i = 1; i <= count; i++)
 #>
     static readonly MethodInfo Invoke<#= i #>MethodInfo = typeof(PropertyAttribute).GetMethod(nameof(Invoke<#= i #>), BindingFlags.Static | BindingFlags.NonPublic)!;
 
-    static Property Invoke<#= i #><<#= types #>>(Action<object[]> method) =>
+    static Property Invoke<#= i #><<#= types #>>(Func<object[], bool> method) =>
         Prop.ForAll<<#= typesTuple #>>(values => method(new object[] { <#= values #> }));
 
 <#

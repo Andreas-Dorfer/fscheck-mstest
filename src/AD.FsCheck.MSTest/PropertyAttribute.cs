@@ -62,13 +62,6 @@ public partial class PropertyAttribute : TestMethodAttribute, IRunConfiguration
         }
         return false;
 
-        void Invoke(object[] values)
-        {
-            var result = testMethod.Invoke(values);
-            if (result.TestFailureException is not null)
-            {
-                throw result.TestFailureException;
-            }
-        }
+        bool Invoke(object[] values) => testMethod.Invoke(values).Outcome == UnitTestOutcome.Passed;
     }
 }
