@@ -11,5 +11,7 @@ public static class ConfigurationExtensions
     /// <param name="configuration">The <see cref="Configuration"/> to convert.</param>
     /// <returns>The created <see cref="IRunConfiguration"/>.</returns>
     public static IRunConfiguration ToRunConfiguration(this Configuration configuration) =>
-        new RunConfiguration(configuration.MaxNbOfTest);
+        new RunConfiguration(
+            configuration.MaxNbOfTest,
+            configuration.MaxNbOfFailedTests);
 }

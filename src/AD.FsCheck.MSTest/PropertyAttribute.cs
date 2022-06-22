@@ -34,6 +34,9 @@ public partial class PropertyAttribute : TestMethodAttribute, IRunConfiguration
     public int MaxNbOfTest { get; set; } = -1;
 
     /// <inheritdoc/>
+    public int MaxNbOfFailedTests { get; set; } = -1;
+
+    /// <inheritdoc/>
     public override MSTestResult[] Execute(ITestMethod testMethod)
     {
         MSTestRunner runner = new();
