@@ -15,7 +15,7 @@ public class ClassMaxNbOfTest : CommandLineTest
     { }
 
     [TestMethod]
-    public async Task Method_test() => Assert.AreEqual(MaxNbOfTest, await AssertSuccess(nameof(Method)));
+    public async Task Method_test() => AreEqual(MaxNbOfTest, await AssertSuccess(nameof(Method)));
 }
 
 #pragma warning restore IDE0060 // Remove unused parameter

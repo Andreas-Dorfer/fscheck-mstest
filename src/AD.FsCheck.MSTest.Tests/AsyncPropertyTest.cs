@@ -19,7 +19,7 @@ public class AsyncPropertyTest : CommandLineTest
     public async Task Failing_async_property(int a)
     {
         await Task.Delay(10);
-        Assert.Fail();
+        Fail();
     }
 
     [TestMethod]

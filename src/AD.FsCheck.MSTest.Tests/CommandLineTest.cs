@@ -25,14 +25,14 @@ public abstract class CommandLineTest
     {
         var result = await Run(testName, Fetch.StdOut);
         var match = Regex.Match(result, @"^Ok, passed (\d+) tests.$");
-        Assert.IsTrue(match.Success);
+        IsTrue(match.Success);
         return int.Parse(match.Groups[1].Value);
     }
 
     protected async Task AssertFalsifiable(string testName)
     {
         var result = await Run(testName, Fetch.StdErr);
-        Assert.IsTrue(result.StartsWith("Falsifiable"));
+        IsTrue(result.StartsWith("Falsifiable"));
     }
 
     protected async Task<string> Run(string testName, Fetch fetch)

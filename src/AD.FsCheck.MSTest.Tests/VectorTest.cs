@@ -11,13 +11,13 @@ public record Vector(int X, int Y)
 public class VectorTest
 {
     [Property]
-    public void Plus_is_commutative(Vector a, Vector b) => Assert.AreEqual(a + b, b + a);
+    public void Plus_is_commutative(Vector a, Vector b) => AreEqual(a + b, b + a);
 
     [Property]
-    public void Plus_is_associative(Vector a, Vector b, Vector c) => Assert.AreEqual(a + b + c, a + (b + c));
+    public void Plus_is_associative(Vector a, Vector b, Vector c) => AreEqual(a + b + c, a + (b + c));
 
     [Property]
-    public void There_is_a_plus_identity_element(Vector a) => Assert.AreEqual(a, a + Vector.PlusIdentity);
+    public void There_is_a_plus_identity_element(Vector a) => AreEqual(a, a + Vector.PlusIdentity);
 }
 
 [TestClass]
@@ -28,7 +28,7 @@ public class VectorSerializationTest
     {
         var data = await Serialize(expected);
         var actual = await Deserialize(data);
-        Assert.AreEqual(expected, actual);
+        AreEqual(expected, actual);
     }
 
     static async Task<byte[]> Serialize(Vector vector)

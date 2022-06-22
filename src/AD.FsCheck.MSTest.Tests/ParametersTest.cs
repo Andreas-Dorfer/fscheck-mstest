@@ -18,7 +18,7 @@ public class ParametersTest : CommandLineTest
     public async Task Zero_parameters_test()
     {
         var errorMsg = await Run(nameof(Zero_parameters), Fetch.StdErr);
-        Assert.AreEqual("Properties must have at least one parameter.", errorMsg);
+        AreEqual("Properties must have at least one parameter.", errorMsg);
     }
 
     #endregion
@@ -110,7 +110,7 @@ public class ParametersTest : CommandLineTest
     public async Task Eight_parameters_test()
     {
         var errorMsg = await Run(nameof(Eight_parameters), Fetch.StdErr);
-        Assert.AreEqual("The number of property parameters is limited to 7. The actual number is 8.", errorMsg);
+        AreEqual("The number of property parameters is limited to 7. The actual number is 8.", errorMsg);
     }
 
     #endregion

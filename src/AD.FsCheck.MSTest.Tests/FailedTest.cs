@@ -9,7 +9,7 @@ public class FailedTest : CommandLineTest
     { }
 
     [CommandLineProperty]
-    public void Failing_property(int a) => Assert.Fail();
+    public void Failing_property(int a) => Fail();
 
     [TestMethod]
     public async Task Failing_property_test() => await AssertFalsifiable(nameof(Failing_property));
