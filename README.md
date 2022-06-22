@@ -12,7 +12,7 @@ using AD.FsCheck.MSTest;
 public class PlusTest
 {
     [Property]
-    public void Plus_is_commutative(int a, int b) => Assert.AreEqual(a + b, b + a);
+    public void Is_commutative(int a, int b) => Assert.AreEqual(a + b, b + a);
 }
 ```
 ### Note
