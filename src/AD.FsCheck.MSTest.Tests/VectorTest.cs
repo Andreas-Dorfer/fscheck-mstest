@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace AD.FsCheck.MSTest.Tests;
+﻿namespace AD.FsCheck.MSTest.Tests;
 
 public record Vector(int X, int Y)
 {
