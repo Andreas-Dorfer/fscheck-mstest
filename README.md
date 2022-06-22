@@ -19,7 +19,7 @@ public class PlusTest
 - [C#](https://github.com/Andreas-Dorfer/fscheck-mstest/blob/09e87d3a256bbb9b7f879f233ee0782393609386/src/AD.FsCheck.MSTest.Tests/VectorTest.cs)
 - [F#](https://github.com/Andreas-Dorfer/fscheck-mstest/blob/09e87d3a256bbb9b7f879f233ee0782393609386/src/AD.FsCheck.MSTest.FsTests/VectorTest.fs)
 ## Limitations
-A property's return type **must be** `void` or `Task`.
+A property's return type **must be** `void` / `Task`.
 
 `bool` / `Task<bool>` and `Property` / `Task<Property>` are **not supported**.
 ### Note
