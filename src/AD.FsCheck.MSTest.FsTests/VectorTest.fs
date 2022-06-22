@@ -3,6 +3,7 @@ namespace AD.FsCheck.MSTest.FsTests
 open System
 open System.Threading.Tasks
 open Microsoft.VisualStudio.TestTools.UnitTesting
+open type Microsoft.VisualStudio.TestTools.UnitTesting.Assert
 open AD.FsCheck.MSTest
 
 type Vector = { X: int; Y: int }
@@ -15,13 +16,13 @@ module Vector =
 type VectorTest () =
     
     [<Property>]
-    member _.``Plus is commutative`` (a: Vector, b) = Assert.AreEqual<_> (a + b, b + a)
+    member _.``Plus is commutative`` (a: Vector, b) = AreEqual<_> (a + b, b + a)
 
     [<Property>]
-    member _.``Plus is associative`` (a: Vector, b, c) = Assert.AreEqual<_> (a + b + c, a + (b + c))
+    member _.``Plus is associative`` (a: Vector, b, c) = AreEqual<_> (a + b + c, a + (b + c))
 
     [<Property>]
-    member _.``There is a plus identity element`` a = Assert.AreEqual<_> (a, a + Vector.plusIdentity)
+    member _.``There is a plus identity element`` a = AreEqual<_> (a, a + Vector.plusIdentity)
 
 [<TestClass>]
 type VectorSerializationTest () =
@@ -42,5 +43,5 @@ type VectorSerializationTest () =
     member _.```Serialize and deserialize`` expected : Task = task {
         let! data = expected |> serialize
         let! actual = data |> deserialize
-        Assert.AreEqual<_> (expected, actual)
+        AreEqual<_> (expected, actual)
     }
