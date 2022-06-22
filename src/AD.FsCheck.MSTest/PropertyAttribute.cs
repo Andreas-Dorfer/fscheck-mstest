@@ -55,9 +55,20 @@ public partial class PropertyAttribute : TestMethodAttribute, IRunConfiguration
         if (TryGetInvokeMethodInfo(parameters.Length, out var methodInfo, out errorMsg))
         {
             var invokeInfo = methodInfo.MakeGenericMethod(parameters.Select(_ => _.ParameterType).ToArray());
-            ((Property)invokeInfo.Invoke(null, new object[] { void (object[] values) => testMethod.Invoke(values) })!).Check(fsCheckConfig);
+#pragma warning disable CS8974 // Converting method group to non-delegate type
+            ((Property)invokeInfo.Invoke(null, new object[] { Invoke })!).Check(fsCheckConfig);
+#pragma warning restore CS8974 // Converting method group to non-delegate type
             return true;
         }
         return false;
+
+        void Invoke(object[] values)
+        {
+            var result = testMethod.Invoke(values);
+            if (result.TestFailureException is not null)
+            {
+                throw result.TestFailureException;
+            }
+        }
     }
 }
