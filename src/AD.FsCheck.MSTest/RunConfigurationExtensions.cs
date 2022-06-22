@@ -1,6 +1,6 @@
 ﻿namespace AD.FsCheck.MSTest;
 
-internal static class RunConfigurationExtensions
+static class RunConfigurationExtensions
 {
     public static IRunConfiguration OrElse(this IRunConfiguration config, IRunConfiguration? @else)
     {
@@ -9,4 +9,10 @@ internal static class RunConfigurationExtensions
         return new RunConfiguration(
             config.MaxNbOfTest > -1 ? config.MaxNbOfTest : @else.MaxNbOfTest);
     }
+
+    public static Configuration ToConfiguration(this IRunConfiguration config, IRunner runner) => new()
+    {
+        MaxNbOfTest = config.MaxNbOfTest,
+        Runner = runner
+    };
 }

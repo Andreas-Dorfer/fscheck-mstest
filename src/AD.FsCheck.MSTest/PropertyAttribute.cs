@@ -36,13 +36,8 @@ public partial class PropertyAttribute : TestMethodAttribute, IRunConfiguration
     /// <inheritdoc/>
     public override MSTestResult[] Execute(ITestMethod testMethod)
     {
-        var runConfig = this.OrElse(Parent).OrElse(Default);
         MSTestRunner runner = new();
-        var fsCheckConfig = new Configuration
-        {
-            MaxNbOfTest = runConfig.MaxNbOfTest,
-            Runner = runner
-        };
+        var fsCheckConfig = this.OrElse(Parent).OrElse(Default).ToConfiguration(runner);
         if (TryInvoke(testMethod, fsCheckConfig, out var errorMsg))
         {
             return new[] { runner.Result! };

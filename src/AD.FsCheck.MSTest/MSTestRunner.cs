@@ -16,15 +16,15 @@ class MSTestRunner : IRunner
     public void OnShrink(FSharpList<object> args, FSharpFunc<FSharpList<object>, string> everyShrink) =>
         everyShrink.Invoke(args);
 
-    public void OnFinished(string name, global::FsCheck.TestResult testResult) =>
+    public void OnFinished(string name, FsCheckResult testResult) =>
         Result = testResult switch
         {
-            global::FsCheck.TestResult.True => new()
+            FsCheckResult.True => new()
             {
                 Outcome = MSTestOutcome.Passed,
                 LogOutput = Runner.onFinishedToString("", testResult)
             },
-            global::FsCheck.TestResult.False => new()
+            FsCheckResult.False => new()
             {
                 Outcome = MSTestOutcome.Failed,
                 LogError = Runner.onFinishedToString("", testResult)
