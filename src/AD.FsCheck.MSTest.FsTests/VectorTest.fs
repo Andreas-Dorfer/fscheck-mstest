@@ -38,7 +38,7 @@ type VectorSerializationTest () =
         return vector
     }
 
-    [<Property>]
+    [<Property(MaxNbOfTest = 10)>]
     member _.```Serialize and deserialize`` expected : Task = task {
         let! data = expected |> serialize
         let! actual = data |> deserialize
