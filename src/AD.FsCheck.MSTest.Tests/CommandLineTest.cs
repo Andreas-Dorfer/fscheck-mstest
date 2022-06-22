@@ -4,7 +4,7 @@ using System.Xml.Linq;
 
 namespace AD.FsCheck.MSTest.Tests;
 
-public abstract class CommandLineTest
+public abstract class CommandLineTest : IDisposable
 {
     public enum Fetch
     {
@@ -15,10 +15,12 @@ public abstract class CommandLineTest
     public const string EnvironmentVariable = "CommandLine";
 
     readonly string className;
+    readonly string fileName;
 
     public CommandLineTest(string className)
     {
         this.className = className;
+        fileName = CreateTestFileName();
     }
 
     protected async Task<int> AssertSuccess(string testName)
@@ -37,19 +39,17 @@ public abstract class CommandLineTest
 
     protected async Task<string> Run(string testName, Fetch fetch)
     {
-        var fileName = CreateTestFileName();
-        await RunCommandLineTest(testName, fileName);
-        var output = await FetchTestOutput(fileName, fetch);
-        File.Delete(fileName);
+        await RunCommandLineTest(testName);
+        var output = await FetchTestOutput(fetch);
         return output;
     }
 
     static string CreateTestFileName() => Path.ChangeExtension(Path.GetTempFileName(), ".trx");
 
-    async Task RunCommandLineTest(string testName, string fileName) =>
+    async Task RunCommandLineTest(string testName) =>
         await Process.Start("dotnet.exe", $@"test ..\..\..\. --no-build --environment {EnvironmentVariable}=true --logger ""trx;LogFileName={fileName}"" --filter ""FullyQualifiedName=AD.FsCheck.MSTest.Tests.{className}.{testName}""").WaitForExitAsync();
 
-    static async Task<string> FetchTestOutput(string fileName, Fetch fetch)
+    async Task<string> FetchTestOutput(Fetch fetch)
     {
         using var reader = new StreamReader(fileName);
         var result = await XDocument.LoadAsync(reader, LoadOptions.None, CancellationToken.None);
@@ -62,4 +62,12 @@ public abstract class CommandLineTest
             Fetch.StdErr => "StdErr",
             _ => "StdOut"
         };
+
+    public void Dispose()
+    {
+        if (fileName is not null)
+        {
+            File.Delete(fileName);
+        }
+    }
 }
