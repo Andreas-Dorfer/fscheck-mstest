@@ -8,7 +8,7 @@ namespace AD.FsCheck.MSTest;
 [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
 public partial class PropertyAttribute : TestMethodAttribute, IRunConfiguration
 {
-    static readonly IRunConfiguration DefaultRunConfiguration = Configuration.QuickThrowOnFailure.ToRunConfiguration();
+    static readonly IRunConfiguration DefaultRunConfiguration = Configuration.Quick.ToRunConfiguration();
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PropertyAttribute"/> class.
