@@ -3,7 +3,7 @@ using Microsoft.FSharp.Core;
 
 namespace AD.FsCheck.MSTest;
 
-public class MSTestRunner : IRunner
+class MSTestRunner : IRunner
 {
     public MSTestResult? Result { get; private set; }
 

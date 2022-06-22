@@ -33,6 +33,7 @@ public partial class PropertyAttribute : TestMethodAttribute, IRunConfiguration
     /// <inheritdoc/>
     public int MaxNbOfTest { get; set; } = -1;
 
+    /// <inheritdoc/>
     public override MSTestResult[] Execute(ITestMethod testMethod)
     {
         var runConfig = this.OrElse(Parent).OrElse(Default);
