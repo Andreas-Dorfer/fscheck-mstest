@@ -15,3 +15,5 @@ public class PlusTest
     public void Plus_is_commutative(int a, int b) => Assert.AreEqual(a + b, b + a);
 }
 ```
+### Note
+`AD.FsCheck.MSTest` is in an early stage.
