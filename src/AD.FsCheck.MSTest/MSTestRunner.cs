@@ -26,7 +26,8 @@ public class MSTestRunner : IRunner
             },
             global::FsCheck.TestResult.False => new()
             {
-                Outcome = MSTestOutcome.Failed
+                Outcome = MSTestOutcome.Failed,
+                LogError = Runner.onFinishedToString("", testResult)
             },
             _ => new() { Outcome = MSTestOutcome.NotRunnable }
         };
