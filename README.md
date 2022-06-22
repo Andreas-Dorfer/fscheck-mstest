@@ -21,6 +21,6 @@ public class PlusTest
 ## Limitations
 A property's return type **must be** `void` or `Task`.
 
-`bool`, `Task<bool>`, `Property`, `Task<Property>` are **not supported**.
+`bool` / `Task<bool>` and `Property` / `Task<Property>` are **not supported**.
 ### Note
 `AD.FsCheck.MSTest` is in an early stage.
