@@ -5,7 +5,9 @@ VisualStudioVersion = 17.2.32602.215
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AD.FsCheck.MSTest", "AD.FsCheck.MSTest\AD.FsCheck.MSTest.csproj", "{DF06D93E-069E-48CD-9EA4-C36501159AD2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AD.FsCheck.MSTest.Tests", "AD.FsCheck.MSTest.Tests\AD.FsCheck.MSTest.Tests.csproj", "{464EAEA4-F8A9-4324-B901-DF340CFBF2E5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AD.FsCheck.MSTest.Tests", "AD.FsCheck.MSTest.Tests\AD.FsCheck.MSTest.Tests.csproj", "{464EAEA4-F8A9-4324-B901-DF340CFBF2E5}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "AD.FsCheck.MSTest.FsTests", "AD.FsCheck.MSTest.FsTests\AD.FsCheck.MSTest.FsTests.fsproj", "{B3B9A036-3094-428B-986A-D91FFB86BC63}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{464EAEA4-F8A9-4324-B901-DF340CFBF2E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{464EAEA4-F8A9-4324-B901-DF340CFBF2E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{464EAEA4-F8A9-4324-B901-DF340CFBF2E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3B9A036-3094-428B-986A-D91FFB86BC63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3B9A036-3094-428B-986A-D91FFB86BC63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3B9A036-3094-428B-986A-D91FFB86BC63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3B9A036-3094-428B-986A-D91FFB86BC63}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

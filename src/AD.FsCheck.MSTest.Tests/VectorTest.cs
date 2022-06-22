@@ -31,11 +31,11 @@ public class VectorSerializationTest
         Assert.AreEqual(expected, actual);
     }
 
-    static async Task<byte[]> Serialize(Vector a)
+    static async Task<byte[]> Serialize(Vector vector)
     {
         var data = new byte[2 * sizeof(int)];
-        BitConverter.GetBytes(a.X).CopyTo(data, 0);
-        BitConverter.GetBytes(a.Y).CopyTo(data, sizeof(int));
+        BitConverter.GetBytes(vector.X).CopyTo(data, 0);
+        BitConverter.GetBytes(vector.Y).CopyTo(data, sizeof(int));
         await Task.Delay(10);
         return data;
     }
