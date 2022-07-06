@@ -3,7 +3,7 @@
 [TestClass]
 public class AsyncLocalInitializeTest
 {
-    static readonly AsyncLocal<Guid> propId = new AsyncLocal<Guid>();
+    static readonly AsyncLocal<Guid> propId = new();
 
     [PropertyInitialize]
     public static void PropertyInitialize()
