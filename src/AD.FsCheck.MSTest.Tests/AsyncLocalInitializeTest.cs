@@ -12,7 +12,7 @@ public class AsyncLocalInitializeTest
     }
 
     [Property]
-    public async Task PropA(int a)
+    public async Task PropA(int _)
     {
         var id = propId.Value;
         AreNotEqual(Guid.Empty, id);
@@ -21,7 +21,7 @@ public class AsyncLocalInitializeTest
     }
 
     [Property]
-    public async Task PropB(int a)
+    public async Task PropB(int _)
     {
         var id = propId.Value;
         AreNotEqual(Guid.Empty, id);
