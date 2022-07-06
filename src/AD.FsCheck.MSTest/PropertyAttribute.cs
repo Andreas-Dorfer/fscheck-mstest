@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 
 namespace AD.FsCheck.MSTest;
 
@@ -39,13 +40,50 @@ public partial class PropertyAttribute : TestMethodAttribute, IRunConfiguration
     /// <inheritdoc/>
     public override MSTestResult[] Execute(ITestMethod testMethod)
     {
+        Action? initalizeProperty = null;
+        Action? cleanupProperty = null;
+
+        var type = testMethod.MethodInfo.DeclaringType;
+        if (type is not null)
+        {
+            var staticMethods = type.GetMethods(BindingFlags.Public | BindingFlags.Static).Where(_ => _.ReturnType == typeof(void) && _.GetParameters().Length == 0);
+            var initializeMethods = staticMethods.Where(_ => _.GetCustomAttribute<PropertyInitializeAttribute>(true) is not null);
+            var cleanupMethods = staticMethods.Where(_ => _.GetCustomAttribute<PropertyCleanupAttribute>(true) is not null);
+
+            initalizeProperty = () =>
+            {
+                foreach (var initialize in initializeMethods)
+                {
+                    initialize.Invoke(null, Array.Empty<object>());
+                }
+            };
+            cleanupProperty = () =>
+            {
+                foreach (var cleanup in cleanupMethods)
+                {
+                    cleanup.Invoke(null, Array.Empty<object>());
+                }
+            };
+        }
+
+        initalizeProperty?.Invoke();
+
+        MSTestResult[] results;
+
         MSTestRunner runner = new();
         var fsCheckConfig = this.OrElse(Parent).OrElse(Default).ToConfiguration(runner);
         if (TryInvoke(testMethod, fsCheckConfig, out var errorMsg))
         {
-            return new[] { runner.Result! };
+            results = new[] { runner.Result! };
         }
-        return new[] { new MSTestResult { Outcome = UnitTestOutcome.NotRunnable, LogError = errorMsg } };
+        else
+        {
+            results = new[] { new MSTestResult { Outcome = UnitTestOutcome.NotRunnable, LogError = errorMsg } };
+        }
+
+        cleanupProperty?.Invoke();
+
+        return results;
     }
 
     bool TryInvoke(ITestMethod testMethod, Configuration fsCheckConfig, [NotNullWhen(false)] out string? errorMsg)
