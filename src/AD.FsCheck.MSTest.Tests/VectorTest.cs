@@ -26,8 +26,7 @@ public class VectorSerializationTest
     [Property(MaxNbOfTest = 10)]
     public async Task Serialize_and_deserialize(Vector expected)
     {
-        var data = await Serialize(expected);
-        var actual = await Deserialize(data);
+        var actual = await Deserialize(await Serialize(expected));
         AreEqual(expected, actual);
     }
 
