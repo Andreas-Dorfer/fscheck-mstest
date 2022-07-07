@@ -7,7 +7,7 @@
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <PackageId>$(MSBuildProjectName.Replace("AD", "AndreasDorfer"))</PackageId>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-    <Version>0.1.0</Version>
+    <Version>0.1.1</Version>
     <Authors>Andreas Dorfer</Authors>
     <Description>Integrates FsCheck with MSTest.</Description>
     <RepositoryUrl>https://github.com/Andreas-Dorfer/fscheck-mstest</RepositoryUrl>
