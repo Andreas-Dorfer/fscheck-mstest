@@ -16,6 +16,16 @@ public interface IRunConfiguration
     int MaxNbOfFailedTests { get; }
 
     /// <summary>
+    /// The size to use for the first test.
+    /// </summary>
+    int StartSize { get; }
+
+    /// <summary>
+    /// The size to use for the last test.
+    /// </summary>
+    int EndSize { get; }
+
+    /// <summary>
     /// If set, the seed to use to start testing.
     /// </summary>
     string? Replay { get; }

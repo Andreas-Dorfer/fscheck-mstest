@@ -13,6 +13,12 @@ public class PropertiesAttribute : TestClassAttribute, IRunConfiguration
     public int MaxNbOfFailedTests { get; set; } = -1;
 
     /// <inheritdoc/>
+    public int StartSize { get; set; } = -1;
+
+    /// <inheritdoc/>
+    public int EndSize { get; set; } = -1;
+
+    /// <inheritdoc/>
     public string? Replay { get; set; }
 
     /// <inheritdoc/>
