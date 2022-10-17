@@ -4,7 +4,18 @@ Integrates [FsCheck](https://fscheck.github.io/FsCheck/) with [MSTest](https://g
 ## NuGet Package
     PM> Install-Package AndreasDorfer.FsCheck.MSTest -Version 0.1.1
 ## TLDR
-Makes writing properties with MSTest easy.
+Without `AD.FsCheck.MSTest` your tests look like this:
+```csharp
+using FsCheck;
+
+[TestClass]
+public class PlusTest
+{
+    [TestMethod]
+    public void Commutative() => Prop.ForAll((int a, int b) => a + b == b + a).QuickCheckThrowOnFailure();
+}
+```
+With `AD.FsCheck.MSTest` your tests look like this:
 ```csharp
 using AD.FsCheck.MSTest;
 
