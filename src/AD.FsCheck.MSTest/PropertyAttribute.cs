@@ -66,26 +66,45 @@ public partial class PropertyAttribute : TestMethodAttribute, IRunConfiguration
             };
         }
 
-        initalizeProperty?.Invoke();
-
-        MSTestResult[] results;
-
-        MSTestRunner runner = new();
-        var fsCheckConfig = this.OrElse(Parent).OrElse(Default).ToConfiguration(runner);
-        if (TryInvoke(testMethod, fsCheckConfig, out var runException, out var errorMsg))
+        Exception? initializeCleanupException = default;
+        try
         {
-            var runResult = runner.Result!;
-            runResult.TestFailureException = runException;
-            results = new[] { runResult };
+            initalizeProperty?.Invoke();
         }
-        else
+        catch (TargetInvocationException ex)
         {
-            results = new[] { new MSTestResult { Outcome = UnitTestOutcome.NotRunnable, LogError = errorMsg } };
+            initializeCleanupException = ex.InnerException;
         }
 
-        cleanupProperty?.Invoke();
+        MSTestResult[]? results = default;
 
-        return results;
+        if (initializeCleanupException is null)
+        {
+            MSTestRunner runner = new();
+            var fsCheckConfig = this.OrElse(Parent).OrElse(Default).ToConfiguration(runner);
+            if (TryInvoke(testMethod, fsCheckConfig, out var runException, out var errorMsg))
+            {
+                var runResult = runner.Result!;
+                runResult.TestFailureException = runException;
+                results = new[] { runResult };
+            }
+            else
+            {
+                results = new[] { new MSTestResult { Outcome = UnitTestOutcome.NotRunnable, LogError = errorMsg } };
+            }
+        }
+
+        try
+        {
+            cleanupProperty?.Invoke();
+        }
+        catch (TargetInvocationException ex)
+        {
+            results = default;
+            initializeCleanupException ??= ex.InnerException;
+        }
+
+        return results ?? new[] { new MSTestResult { Outcome = UnitTestOutcome.Failed, TestFailureException = initializeCleanupException } };
     }
 
     bool TryInvoke(ITestMethod testMethod, Configuration fsCheckConfig, out Exception? runException, [NotNullWhen(false)] out string? errorMsg)

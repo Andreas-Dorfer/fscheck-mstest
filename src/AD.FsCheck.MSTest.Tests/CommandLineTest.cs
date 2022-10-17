@@ -51,6 +51,12 @@ public abstract class CommandLineTest : IDisposable
         IsTrue(message.EndsWith(expectedMessage));
     }
 
+    protected async Task AssertMessage(string testName, string expectedMessage)
+    {
+        var message = await Run(testName, Fetch.Message);
+        IsTrue(message.EndsWith(expectedMessage));
+    }
+
     protected async Task<string> Run(string testName, Fetch fetch)
     {
         await RunCommandLineTest(testName);
