@@ -1,4 +1,6 @@
-﻿namespace AD.FsCheck.MSTest;
+﻿using static FsCheck.Random;
+
+namespace AD.FsCheck.MSTest;
 
 static class RunConfigurationExtensions
 {
@@ -8,13 +10,31 @@ static class RunConfigurationExtensions
 
         return new RunConfiguration(
             config.MaxNbOfTest > -1 ? config.MaxNbOfTest : @else.MaxNbOfTest,
-            config.MaxNbOfFailedTests > 1 ? config.MaxNbOfFailedTests : @else.MaxNbOfFailedTests);
+            config.MaxNbOfFailedTests > 1 ? config.MaxNbOfFailedTests : @else.MaxNbOfFailedTests,
+            config.Replay ?? @else.Replay);
+    }
+
+    static StdGen? ToStdGen(string? replay)
+    {
+        if (replay is null) return null;
+
+        var items = replay.TrimStart('(').TrimEnd(')').Split(',');
+        if (items.Length != 2) return null;
+
+        for (int i = 0; i < items.Length; i++)
+        {
+            items[i] = items[i].Trim();
+        }
+
+        if (!(int.TryParse(items[0], out var item1) && int.TryParse(items[1], out var item2))) return null;
+        return StdGen.NewStdGen(item1, item2);
     }
 
     public static Configuration ToConfiguration(this IRunConfiguration config, IRunner runner) => new()
     {
         MaxNbOfTest = config.MaxNbOfTest,
         MaxNbOfFailedTests = config.MaxNbOfFailedTests,
+        Replay = ToStdGen(config.Replay),
         Runner = runner
     };
 }

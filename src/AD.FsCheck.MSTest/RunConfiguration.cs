@@ -5,6 +5,8 @@
 /// </summary>
 /// <param name="MaxNbOfTest">The maximum number of tests that are run.</param>
 /// <param name="MaxNbOfFailedTests">The maximum number of tests where values are rejected.</param>
+/// <param name="Replay">If set, the seed to use to start testing.</param>
 public record RunConfiguration(
     int MaxNbOfTest,
-    int MaxNbOfFailedTests) : IRunConfiguration;
+    int MaxNbOfFailedTests,
+    string? Replay) : IRunConfiguration;
