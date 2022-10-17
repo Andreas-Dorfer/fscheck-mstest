@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
 namespace AD.FsCheck.MSTest;
@@ -40,6 +41,8 @@ public partial class PropertyAttribute : TestMethodAttribute, IRunConfiguration
     /// <inheritdoc/>
     public override MSTestResult[] Execute(ITestMethod testMethod)
     {
+        var stopWatch = Stopwatch.StartNew();
+
         Action? initalizeProperty = null;
         Action? cleanupProperty = null;
 
@@ -104,7 +107,10 @@ public partial class PropertyAttribute : TestMethodAttribute, IRunConfiguration
             initializeCleanupException ??= ex.InnerException;
         }
 
-        return results ?? new[] { new MSTestResult { Outcome = UnitTestOutcome.Failed, TestFailureException = initializeCleanupException } };
+        results ??= new[] { new MSTestResult { Outcome = UnitTestOutcome.Failed, TestFailureException = initializeCleanupException } };
+        stopWatch.Stop();
+        results[0].Duration = stopWatch.Elapsed;
+        return results;
     }
 
     bool TryInvoke(ITestMethod testMethod, Configuration fsCheckConfig, out Exception? runException, [NotNullWhen(false)] out string? errorMsg)

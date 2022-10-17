@@ -11,7 +11,8 @@ public abstract class CommandLineTest : IDisposable
     {
         StdOut,
         StdErr,
-        Message
+        Message,
+        Duration
     }
 
     public const string EnvironmentVariable = "CommandLine";
@@ -73,7 +74,14 @@ public abstract class CommandLineTest : IDisposable
     {
         using var reader = new StreamReader(fileName);
         var result = await XDocument.LoadAsync(reader, LoadOptions.None, CancellationToken.None);
-        return result.Descendants(XName.Get(GetFetchName(fetch), "http://microsoft.com/schemas/VisualStudio/TeamTest/2010")).Single().Value;
+        if (fetch == Fetch.Duration)
+        {
+            return result.Descendants(XName.Get("UnitTestResult", "http://microsoft.com/schemas/VisualStudio/TeamTest/2010")).Single().Attribute("duration")!.Value;
+        }
+        else
+        {
+            return result.Descendants(XName.Get(GetFetchName(fetch), "http://microsoft.com/schemas/VisualStudio/TeamTest/2010")).Single().Value;
+        }
     }
 
     static string GetFetchName(Fetch fetch) =>
