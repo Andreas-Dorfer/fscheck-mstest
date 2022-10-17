@@ -11,7 +11,8 @@ static class RunConfigurationExtensions
         return new RunConfiguration(
             config.MaxNbOfTest > -1 ? config.MaxNbOfTest : @else.MaxNbOfTest,
             config.MaxNbOfFailedTests > 1 ? config.MaxNbOfFailedTests : @else.MaxNbOfFailedTests,
-            config.Replay ?? @else.Replay);
+            config.Replay ?? @else.Replay,
+            config.Verbose || @else.Verbose);
     }
 
     static StdGen? ToStdGen(string? replay)

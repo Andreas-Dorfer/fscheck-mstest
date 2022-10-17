@@ -19,4 +19,9 @@ public interface IRunConfiguration
     /// If set, the seed to use to start testing.
     /// </summary>
     string? Replay { get; }
+
+    /// <summary>
+    /// Output all generated arguments.
+    /// </summary>
+    bool Verbose { get; }
 }

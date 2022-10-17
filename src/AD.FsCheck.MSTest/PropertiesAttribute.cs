@@ -16,6 +16,10 @@ public class PropertiesAttribute : TestClassAttribute, IRunConfiguration
     public string? Replay { get; set; }
 
     /// <inheritdoc/>
+    /// <remarks>When you set <see cref="Verbose"/> to true, it cannot be set to false for individual properties.</remarks>
+    public bool Verbose { get; set; }
+
+    /// <inheritdoc/>
     public override TestMethodAttribute GetTestMethodAttribute(TestMethodAttribute testMethodAttribute)
     {
         if (testMethodAttribute is PropertyAttribute propertyAttribute)

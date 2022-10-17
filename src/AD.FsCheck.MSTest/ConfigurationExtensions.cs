@@ -22,5 +22,6 @@ public static class ConfigurationExtensions
         new RunConfiguration(
             configuration.MaxNbOfTest,
             configuration.MaxNbOfFailedTests,
-            FromStdGen(configuration.Replay));
+            FromStdGen(configuration.Replay),
+            false);
 }

@@ -42,6 +42,9 @@ public partial class PropertyAttribute : TestMethodAttribute, IRunConfiguration
     public string? Replay { get; set; }
 
     /// <inheritdoc/>
+    public bool Verbose { get; set; }
+
+    /// <inheritdoc/>
     public override MSTestResult[] Execute(ITestMethod testMethod)
     {
         var stopWatch = Stopwatch.StartNew();
@@ -86,8 +89,9 @@ public partial class PropertyAttribute : TestMethodAttribute, IRunConfiguration
 
         if (initializeCleanupException is null)
         {
-            MSTestRunner runner = new();
-            var fsCheckConfig = this.OrElse(Parent).OrElse(Default).ToConfiguration(runner);
+            var combined = this.OrElse(Parent).OrElse(Default);
+            MSTestRunner runner = new(combined.Verbose);
+            var fsCheckConfig = combined.ToConfiguration(runner);
             if (TryInvoke(testMethod, fsCheckConfig, out var runException, out var errorMsg))
             {
                 var runResult = runner.Result!;
