@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using FsCheck;
+using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
 
@@ -9,7 +10,8 @@ public abstract class CommandLineTest : IDisposable
     public enum Fetch
     {
         StdOut,
-        StdErr
+        StdErr,
+        Message
     }
 
     public const string EnvironmentVariable = "CommandLine";
@@ -31,10 +33,22 @@ public abstract class CommandLineTest : IDisposable
         return int.Parse(match.Groups[1].Value);
     }
 
+    static void AssertIsFalsifiableText(string text) => IsTrue(text.StartsWith("Falsifiable"));
+
     protected async Task AssertFalsifiable(string testName)
     {
         var result = await Run(testName, Fetch.StdErr);
-        IsTrue(result.StartsWith("Falsifiable"));
+        AssertIsFalsifiableText(result);
+    }
+
+    protected async Task AssertFalsifiableWithMessage(string testName, string expectedMessage)
+    {
+        await AssertFalsifiable(testName);
+        var result = await FetchTestOutput(Fetch.StdErr);
+        var message = await FetchTestOutput(Fetch.Message);
+
+        AssertIsFalsifiableText(result);
+        IsTrue(message.EndsWith(expectedMessage));
     }
 
     protected async Task<string> Run(string testName, Fetch fetch)
@@ -60,6 +74,7 @@ public abstract class CommandLineTest : IDisposable
         fetch switch
         {
             Fetch.StdErr => "StdErr",
+            Fetch.Message => "Message",
             _ => "StdOut"
         };
 

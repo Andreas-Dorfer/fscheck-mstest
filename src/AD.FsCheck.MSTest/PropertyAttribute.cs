@@ -72,9 +72,11 @@ public partial class PropertyAttribute : TestMethodAttribute, IRunConfiguration
 
         MSTestRunner runner = new();
         var fsCheckConfig = this.OrElse(Parent).OrElse(Default).ToConfiguration(runner);
-        if (TryInvoke(testMethod, fsCheckConfig, out var errorMsg))
+        if (TryInvoke(testMethod, fsCheckConfig, out var runException, out var errorMsg))
         {
-            results = new[] { runner.Result! };
+            var runResult = runner.Result!;
+            runResult.TestFailureException = runException;
+            results = new[] { runResult };
         }
         else
         {
@@ -86,19 +88,27 @@ public partial class PropertyAttribute : TestMethodAttribute, IRunConfiguration
         return results;
     }
 
-    bool TryInvoke(ITestMethod testMethod, Configuration fsCheckConfig, [NotNullWhen(false)] out string? errorMsg)
+    bool TryInvoke(ITestMethod testMethod, Configuration fsCheckConfig, out Exception? runException, [NotNullWhen(false)] out string? errorMsg)
     {
         var parameters = testMethod.ParameterTypes;
         if (TryGetInvokeMethodInfo(parameters.Length, out var methodInfo, out errorMsg))
         {
+            Exception? ex = default;
+            bool Invoke(object[] values)
+            {
+                var testResult = testMethod.Invoke(values);
+                ex ??= testResult.TestFailureException;
+                return testResult.Outcome == UnitTestOutcome.Passed;
+            }
+
             var invokeInfo = methodInfo.MakeGenericMethod(parameters.Select(_ => _.ParameterType).ToArray());
 #pragma warning disable CS8974 // Converting method group to non-delegate type
             ((Property)invokeInfo.Invoke(null, new object[] { Invoke })!).Check(fsCheckConfig);
 #pragma warning restore CS8974 // Converting method group to non-delegate type
+            runException = ex;
             return true;
         }
+        runException = default;
         return false;
-
-        bool Invoke(object[] values) => testMethod.Invoke(values).Outcome == UnitTestOutcome.Passed;
     }
 }
