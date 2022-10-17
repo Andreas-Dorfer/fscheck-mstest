@@ -14,4 +14,9 @@ public interface IRunConfiguration
     /// The maximum number of tests where values are rejected.
     /// </summary>
     int MaxNbOfFailedTests { get; }
+
+    /// <summary>
+    /// If set, the seed to use to start testing.
+    /// </summary>
+    string? Replay { get; }
 }

@@ -39,6 +39,9 @@ public partial class PropertyAttribute : TestMethodAttribute, IRunConfiguration
     public int MaxNbOfFailedTests { get; set; } = -1;
 
     /// <inheritdoc/>
+    public string? Replay { get; set; }
+
+    /// <inheritdoc/>
     public override MSTestResult[] Execute(ITestMethod testMethod)
     {
         var stopWatch = Stopwatch.StartNew();
