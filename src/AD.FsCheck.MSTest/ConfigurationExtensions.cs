@@ -25,5 +25,6 @@ public static class ConfigurationExtensions
             configuration.StartSize,
             configuration.EndSize,
             FromStdGen(configuration.Replay),
-            false);
+            false, //Verbose cannot be inferred from a Configuration
+            configuration.QuietOnSuccess);
 }

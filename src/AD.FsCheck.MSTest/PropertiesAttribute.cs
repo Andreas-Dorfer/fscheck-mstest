@@ -26,6 +26,10 @@ public class PropertiesAttribute : TestClassAttribute, IRunConfiguration
     public bool Verbose { get; set; }
 
     /// <inheritdoc/>
+    /// <remarks>When you set <see cref="QuietOnSuccess"/> to true, it cannot be set to false for individual properties.</remarks>
+    public bool QuietOnSuccess { get; set; }
+
+    /// <inheritdoc/>
     public override TestMethodAttribute GetTestMethodAttribute(TestMethodAttribute testMethodAttribute)
     {
         if (testMethodAttribute is PropertyAttribute propertyAttribute)

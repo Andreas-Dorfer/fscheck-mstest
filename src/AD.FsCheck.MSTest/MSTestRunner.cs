@@ -6,12 +6,13 @@ namespace AD.FsCheck.MSTest;
 
 class MSTestRunner : IRunner
 {
-    readonly bool verbose;
+    readonly bool verbose, quietOnSuccess;
     readonly StringBuilder log = new();
 
-    public MSTestRunner(bool verbose)
+    public MSTestRunner(bool verbose, bool quietOnSuccess)
     {
         this.verbose = verbose;
+        this.quietOnSuccess = quietOnSuccess;
     }
 
     public MSTestResult? Result { get; private set; }
@@ -28,8 +29,14 @@ class MSTestRunner : IRunner
         every.Invoke(ntest).Invoke(args);
     }
 
-    public void OnShrink(FSharpList<object> args, FSharpFunc<FSharpList<object>, string> everyShrink) =>
+    public void OnShrink(FSharpList<object> args, FSharpFunc<FSharpList<object>, string> everyShrink)
+    {
+        if(verbose)
+        {
+            log.AppendLine($"shrink: ({string.Join(", ", args)})");
+        }
         everyShrink.Invoke(args);
+    }
 
     public void OnFinished(string name, FsCheckResult testResult) =>
         Result = testResult switch
@@ -37,7 +44,7 @@ class MSTestRunner : IRunner
             FsCheckResult.True => new()
             {
                 Outcome = MSTestOutcome.Passed,
-                LogOutput = log.Append(Runner.onFinishedToString("", testResult)).ToString()
+                LogOutput = quietOnSuccess ? null : log.Append(Runner.onFinishedToString("", testResult)).ToString()
             },
             FsCheckResult.False => new()
             {

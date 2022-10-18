@@ -34,4 +34,9 @@ public interface IRunConfiguration
     /// Output all generated arguments.
     /// </summary>
     bool Verbose { get; }
+
+    /// <summary>
+    /// Suppresses the output from the test if the test is successful.
+    /// </summary>
+    bool QuietOnSuccess { get; }
 }

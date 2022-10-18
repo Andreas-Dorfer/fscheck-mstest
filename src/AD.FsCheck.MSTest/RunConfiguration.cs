@@ -9,10 +9,12 @@
 /// <param name="EndSize">The size to use for the last test.</param>
 /// <param name="Replay">If set, the seed to use to start testing.</param>
 /// <param name="Verbose">Output all generated arguments.</param>
+/// <param name="QuietOnSuccess">Suppresses the output from the test if the test is successful.</param>
 public record RunConfiguration(
     int MaxNbOfTest,
     int MaxNbOfFailedTests,
     int StartSize,
     int EndSize,
     string? Replay,
-    bool Verbose) : IRunConfiguration;
+    bool Verbose,
+    bool QuietOnSuccess) : IRunConfiguration;
