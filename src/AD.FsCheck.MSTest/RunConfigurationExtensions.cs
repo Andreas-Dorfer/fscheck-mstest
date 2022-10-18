@@ -10,8 +10,12 @@ static class RunConfigurationExtensions
 
         return new RunConfiguration(
             config.MaxNbOfTest > -1 ? config.MaxNbOfTest : @else.MaxNbOfTest,
-            config.MaxNbOfFailedTests > 1 ? config.MaxNbOfFailedTests : @else.MaxNbOfFailedTests,
-            config.Replay ?? @else.Replay);
+            config.MaxNbOfFailedTests > -1 ? config.MaxNbOfFailedTests : @else.MaxNbOfFailedTests,
+            config.StartSize > -1 ? config.StartSize : @else.StartSize,
+            config.EndSize > -1 ? config.EndSize : @else.EndSize,
+            config.Replay ?? @else.Replay,
+            config.Verbose || @else.Verbose,
+            config.QuietOnSuccess || @else.QuietOnSuccess);
     }
 
     static StdGen? ToStdGen(string? replay)
@@ -34,7 +38,10 @@ static class RunConfigurationExtensions
     {
         MaxNbOfTest = config.MaxNbOfTest,
         MaxNbOfFailedTests = config.MaxNbOfFailedTests,
+        StartSize = config.StartSize,
+        EndSize = config.EndSize,
         Replay = ToStdGen(config.Replay),
+        QuietOnSuccess = config.QuietOnSuccess,
         Runner = runner
     };
 }

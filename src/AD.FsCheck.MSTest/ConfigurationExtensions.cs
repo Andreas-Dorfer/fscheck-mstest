@@ -22,5 +22,9 @@ public static class ConfigurationExtensions
         new RunConfiguration(
             configuration.MaxNbOfTest,
             configuration.MaxNbOfFailedTests,
-            FromStdGen(configuration.Replay));
+            configuration.StartSize,
+            configuration.EndSize,
+            FromStdGen(configuration.Replay),
+            false, //Verbose cannot be inferred from a Configuration
+            configuration.QuietOnSuccess);
 }

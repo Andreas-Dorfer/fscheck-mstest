@@ -39,7 +39,19 @@ public partial class PropertyAttribute : TestMethodAttribute, IRunConfiguration
     public int MaxNbOfFailedTests { get; set; } = -1;
 
     /// <inheritdoc/>
+    public int StartSize { get; set; } = -1;
+
+    /// <inheritdoc/>
+    public int EndSize { get; set; } = -1;
+
+    /// <inheritdoc/>
     public string? Replay { get; set; }
+
+    /// <inheritdoc/>
+    public bool Verbose { get; set; }
+
+    /// <inheritdoc/>
+    public bool QuietOnSuccess { get; set; }
 
     /// <inheritdoc/>
     public override MSTestResult[] Execute(ITestMethod testMethod)
@@ -86,8 +98,9 @@ public partial class PropertyAttribute : TestMethodAttribute, IRunConfiguration
 
         if (initializeCleanupException is null)
         {
-            MSTestRunner runner = new();
-            var fsCheckConfig = this.OrElse(Parent).OrElse(Default).ToConfiguration(runner);
+            var combined = this.OrElse(Parent).OrElse(Default);
+            MSTestRunner runner = new(combined.Verbose, combined.QuietOnSuccess);
+            var fsCheckConfig = combined.ToConfiguration(runner);
             if (TryInvoke(testMethod, fsCheckConfig, out var runException, out var errorMsg))
             {
                 var runResult = runner.Result!;

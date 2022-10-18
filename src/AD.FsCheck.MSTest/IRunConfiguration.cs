@@ -16,7 +16,27 @@ public interface IRunConfiguration
     int MaxNbOfFailedTests { get; }
 
     /// <summary>
+    /// The size to use for the first test.
+    /// </summary>
+    int StartSize { get; }
+
+    /// <summary>
+    /// The size to use for the last test.
+    /// </summary>
+    int EndSize { get; }
+
+    /// <summary>
     /// If set, the seed to use to start testing.
     /// </summary>
     string? Replay { get; }
+
+    /// <summary>
+    /// Output all generated arguments.
+    /// </summary>
+    bool Verbose { get; }
+
+    /// <summary>
+    /// Suppresses the output from the test if the test is successful.
+    /// </summary>
+    bool QuietOnSuccess { get; }
 }

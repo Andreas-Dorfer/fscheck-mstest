@@ -13,7 +13,21 @@ public class PropertiesAttribute : TestClassAttribute, IRunConfiguration
     public int MaxNbOfFailedTests { get; set; } = -1;
 
     /// <inheritdoc/>
+    public int StartSize { get; set; } = -1;
+
+    /// <inheritdoc/>
+    public int EndSize { get; set; } = -1;
+
+    /// <inheritdoc/>
     public string? Replay { get; set; }
+
+    /// <inheritdoc/>
+    /// <remarks>When you set <see cref="Verbose"/> to true, it cannot be set to false for individual properties.</remarks>
+    public bool Verbose { get; set; }
+
+    /// <inheritdoc/>
+    /// <remarks>When you set <see cref="QuietOnSuccess"/> to true, it cannot be set to false for individual properties.</remarks>
+    public bool QuietOnSuccess { get; set; }
 
     /// <inheritdoc/>
     public override TestMethodAttribute GetTestMethodAttribute(TestMethodAttribute testMethodAttribute)
