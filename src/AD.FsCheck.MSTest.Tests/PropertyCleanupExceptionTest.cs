@@ -7,7 +7,11 @@ public class PropertyCleanupExceptionTest : CommandLineTest
     { }
 
     [PropertyCleanup]
-    public static void PropertyCleanup() => Fail(nameof(PropertyCleanup));
+    public static void PropertyCleanup(string propName)
+    {
+        AreEqual(nameof(Prop), propName);
+        Fail(nameof(PropertyCleanup));
+    }
 
     [CommandLineProperty]
     public void Prop(int _)
