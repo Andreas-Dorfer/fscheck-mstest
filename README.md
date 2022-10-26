@@ -35,6 +35,14 @@ You can configure how your properties are run, using either the ``PropertyAttrib
 - Replay
 - Verbose
 - QuietOnSuccess
+```csharp
+[Properties(MaxNbOfTest = 1000)]
+public class PlusTest
+{
+    [Property(Replay = "760375822,297103040", Verbose = true)]
+    public void Commutative(int a, int b) => Assert.AreEqual(a + b, b + a);
+}
+```
 ## Examples
 - [C#](https://github.com/Andreas-Dorfer/fscheck-mstest/blob/09e87d3a256bbb9b7f879f233ee0782393609386/src/AD.FsCheck.MSTest.Tests/VectorTest.cs)
 - [F#](https://github.com/Andreas-Dorfer/fscheck-mstest/blob/09e87d3a256bbb9b7f879f233ee0782393609386/src/AD.FsCheck.MSTest.FsTests/VectorTest.fs)
