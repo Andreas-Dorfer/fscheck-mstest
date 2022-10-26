@@ -3,7 +3,7 @@
 /// <summary>
 /// Set common configuration for all properties within this class.
 /// </summary>
-[AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
+[AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
 public class PropertiesAttribute : TestClassAttribute, IRunConfiguration
 {
     /// <inheritdoc/>
