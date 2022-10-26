@@ -6,8 +6,9 @@ public class CleanupTest
     static int count = 2;
 
     [PropertyCleanup]
-    public static void PropertyCleanup()
+    public static void PropertyCleanup(string propName)
     {
+        CollectionAssert.Contains(new[] { nameof(PropA), nameof(PropB) }, propName);
         count--;
     }
 

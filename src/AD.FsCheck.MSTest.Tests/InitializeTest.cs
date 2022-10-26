@@ -6,8 +6,9 @@ public class InitializeTest : IDisposable
     static int count;
 
     [PropertyInitialize]
-    public static void PropertyInitialize()
+    public static void PropertyInitialize(string propName)
     {
+        CollectionAssert.Contains(new[] { nameof(PropA), nameof(PropB) }, propName);
         count++;
     }
 

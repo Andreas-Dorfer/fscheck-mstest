@@ -7,7 +7,11 @@ public class PropertyInitializeExceptionTest : CommandLineTest
     { }
 
     [PropertyInitialize]
-    public static void PropertyInitialize() => Fail(nameof(PropertyInitialize));
+    public static void PropertyInitialize(string propName)
+    {
+        AreEqual(nameof(Prop), propName);
+        Fail(nameof(PropertyInitialize));
+    }
 
     [CommandLineProperty]
     public void Prop(int _) => Fail("property should not be invoked");

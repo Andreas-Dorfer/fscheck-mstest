@@ -58,13 +58,20 @@ public partial class PropertyAttribute : TestMethodAttribute, IRunConfiguration
     {
         var stopWatch = Stopwatch.StartNew();
 
+        var propName = testMethod.TestMethodName;
+
         Action? initalizeProperty = null;
         Action? cleanupProperty = null;
 
         var type = testMethod.MethodInfo.DeclaringType;
         if (type is not null)
         {
-            var staticMethods = type.GetMethods(BindingFlags.Public | BindingFlags.Static).Where(_ => _.ReturnType == typeof(void) && _.GetParameters().Length == 0);
+            var staticMethods = type.GetMethods(BindingFlags.Public | BindingFlags.Static).Where(method =>
+            {
+                if (method.ReturnType != typeof(void)) return false;
+                var parameters = method.GetParameters();
+                return parameters.Length == 1 && parameters[0].ParameterType == typeof(string);
+            });
             var initializeMethods = staticMethods.Where(_ => _.GetCustomAttribute<PropertyInitializeAttribute>(true) is not null);
             var cleanupMethods = staticMethods.Where(_ => _.GetCustomAttribute<PropertyCleanupAttribute>(true) is not null);
 
@@ -72,14 +79,14 @@ public partial class PropertyAttribute : TestMethodAttribute, IRunConfiguration
             {
                 foreach (var initialize in initializeMethods)
                 {
-                    initialize.Invoke(null, Array.Empty<object>());
+                    initialize.Invoke(null, new[] { propName });
                 }
             };
             cleanupProperty = () =>
             {
                 foreach (var cleanup in cleanupMethods)
                 {
-                    cleanup.Invoke(null, Array.Empty<object>());
+                    cleanup.Invoke(null, new[] { propName });
                 }
             };
         }
