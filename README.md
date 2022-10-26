@@ -27,7 +27,7 @@ public class PlusTest
 }
 ```
 ## Run Configuration
-You can configure how your properties are run, using either the ``PropertyAttribute`` on a method, or the ``PropertiesAttribute`` on a test class:
+You can configure how your properties are run using either the ``PropertyAttribute`` on a method, or the ``PropertiesAttribute`` on a test class:
 - MaxNbOfTest
 - MaxNbOfFailedTests
 - StartSize
