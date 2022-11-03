@@ -13,6 +13,7 @@
     <RepositoryUrl>https://github.com/Andreas-Dorfer/fscheck-mstest</RepositoryUrl>
     <PackageTags>fscheck, mstest</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageIcon>ESD_512.png</PackageIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -32,6 +33,10 @@
     <None Update="PropertyAttribute.Invoke.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>PropertyAttribute.Invoke.cs</LastGenOutput>
+    </None>
+    <None Update="Resources\ESD_512.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
     </None>
   </ItemGroup>
 
