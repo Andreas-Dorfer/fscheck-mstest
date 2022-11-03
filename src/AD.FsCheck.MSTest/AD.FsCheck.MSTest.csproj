@@ -34,10 +34,7 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>PropertyAttribute.Invoke.cs</LastGenOutput>
     </None>
-    <None Update="Resources\ESD_512.png">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
+	<None Include="Resources\ESD_512.png" Pack="true" PackagePath="\"/>
   </ItemGroup>
 
   <ItemGroup>
