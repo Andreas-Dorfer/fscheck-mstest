@@ -26,7 +26,7 @@
 
   <ItemGroup>
     <PackageReference Include="FsCheck" Version="2.16.5" />
-    <PackageReference Include="MSTest.TestFramework" Version="2.2.10" />
+    <PackageReference Include="MSTest.TestFramework" Version="3.0.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -34,7 +34,7 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>PropertyAttribute.Invoke.cs</LastGenOutput>
     </None>
-	<None Include="Resources\ESD_512.png" Pack="true" PackagePath="\"/>
+	<None Include="Resources\ESD_512.png" Pack="true" PackagePath="\" />
   </ItemGroup>
 
   <ItemGroup>
