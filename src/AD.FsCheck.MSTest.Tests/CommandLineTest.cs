@@ -67,7 +67,7 @@ public abstract partial class CommandLineTest : IDisposable
     static string CreateTestFileName() => Path.ChangeExtension(Path.GetTempFileName(), ".trx");
 
     async Task RunCommandLineTest(string testName) =>
-        await Process.Start("dotnet.exe", $@"test ..\..\..\. --no-build --environment {EnvironmentVariable}=true --logger ""trx;LogFileName={fileName}"" --filter ""FullyQualifiedName=AD.FsCheck.MSTest.Tests.{className}.{testName}""").WaitForExitAsync();
+        await Process.Start("dotnet", $@"test ..\..\..\. --no-build --environment {EnvironmentVariable}=true --logger ""trx;LogFileName={fileName}"" --filter ""FullyQualifiedName=AD.FsCheck.MSTest.Tests.{className}.{testName}""").WaitForExitAsync();
 
     async Task<string> FetchTestOutput(Fetch fetch)
     {
