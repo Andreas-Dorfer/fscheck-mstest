@@ -8,7 +8,7 @@ public record Vector(int X, int Y)
 }
 
 [Properties(MaxNbOfTest = 1000)]
-public class VectorTest
+public sealed class VectorTest
 {
     [Property]
     public void Plus_is_commutative(Vector a, Vector b) => AreEqual(a + b, b + a);
@@ -21,7 +21,7 @@ public class VectorTest
 }
 
 [TestClass]
-public class VectorSerializationTest
+public sealed class VectorSerializationTest
 {
     [Property(MaxNbOfTest = 10)]
     public async Task Serialize_and_deserialize(Vector expected)

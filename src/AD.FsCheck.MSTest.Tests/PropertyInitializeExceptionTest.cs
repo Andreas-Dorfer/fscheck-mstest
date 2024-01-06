@@ -1,7 +1,7 @@
 ﻿namespace AD.FsCheck.MSTest.Tests;
 
 [TestClass]
-public class PropertyInitializeExceptionTest : CommandLineTest
+public sealed class PropertyInitializeExceptionTest : CommandLineTest
 {
     public PropertyInitializeExceptionTest() : base(nameof(PropertyInitializeExceptionTest))
     { }

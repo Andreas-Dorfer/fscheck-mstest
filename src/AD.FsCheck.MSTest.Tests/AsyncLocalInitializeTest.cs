@@ -1,14 +1,14 @@
 ﻿namespace AD.FsCheck.MSTest.Tests;
 
 [TestClass]
-public class AsyncLocalInitializeTest
+public sealed class AsyncLocalInitializeTest
 {
     static readonly AsyncLocal<Guid> propId = new();
 
     [PropertyInitialize]
     public static void PropertyInitialize(string propName)
     {
-        CollectionAssert.Contains(new[] {nameof(PropA), nameof(PropB)}, propName);
+        CollectionAssert.Contains(new[] { nameof(PropA), nameof(PropB) }, propName);
         propId.Value = Guid.NewGuid();
     }
 

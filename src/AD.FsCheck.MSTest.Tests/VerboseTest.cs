@@ -1,7 +1,7 @@
 ﻿namespace AD.FsCheck.MSTest.Tests;
 
 [Properties(MaxNbOfTest = MaxNbOfTest)]
-public class VerboseTest : CommandLineTest
+public sealed class VerboseTest : CommandLineTest
 {
     const int MaxNbOfTest = 20;
 

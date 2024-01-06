@@ -1,7 +1,7 @@
 ﻿namespace AD.FsCheck.MSTest.Tests;
 
 [Properties(Replay = "17,42")]
-public class ReplayPrecedenceTest : CommandLineTest
+public sealed class ReplayPrecedenceTest : CommandLineTest
 {
     public ReplayPrecedenceTest() : base(nameof(ReplayPrecedenceTest))
     { }

@@ -3,7 +3,7 @@
 #pragma warning disable IDE0060 // Remove unused parameter
 
 [TestClass]
-public class ParametersTest : CommandLineTest
+public sealed class ParametersTest : CommandLineTest
 {
     public ParametersTest() : base(nameof(ParametersTest))
     { }

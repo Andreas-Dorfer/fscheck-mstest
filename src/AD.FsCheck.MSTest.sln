@@ -7,7 +7,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AD.FsCheck.MSTest", "AD.FsC
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AD.FsCheck.MSTest.Tests", "AD.FsCheck.MSTest.Tests\AD.FsCheck.MSTest.Tests.csproj", "{464EAEA4-F8A9-4324-B901-DF340CFBF2E5}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "AD.FsCheck.MSTest.FsTests", "AD.FsCheck.MSTest.FsTests\AD.FsCheck.MSTest.FsTests.fsproj", "{B3B9A036-3094-428B-986A-D91FFB86BC63}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "AD.FsCheck.MSTest.FsTests", "AD.FsCheck.MSTest.FsTests\AD.FsCheck.MSTest.FsTests.fsproj", "{B3B9A036-3094-428B-986A-D91FFB86BC63}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9F8F8053-9C27-4DE7-9CE3-164F9C7B4ABE}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,7 +1,7 @@
 ﻿namespace AD.FsCheck.MSTest.Tests;
 
 [Properties(Replay = "1561428431,297099475")]
-public class PropertiesReplayTest : CommandLineTest
+public sealed class PropertiesReplayTest : CommandLineTest
 {
     public PropertiesReplayTest() : base(nameof(PropertiesReplayTest))
     { }

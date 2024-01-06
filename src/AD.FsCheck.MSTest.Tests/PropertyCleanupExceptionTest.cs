@@ -1,7 +1,7 @@
 ﻿namespace AD.FsCheck.MSTest.Tests;
 
 [TestClass]
-public class PropertyCleanupExceptionTest : CommandLineTest
+public sealed class PropertyCleanupExceptionTest : CommandLineTest
 {
     public PropertyCleanupExceptionTest() : base(nameof(PropertyCleanupExceptionTest))
     { }

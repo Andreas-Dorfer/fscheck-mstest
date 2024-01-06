@@ -1,7 +1,7 @@
 ﻿namespace AD.FsCheck.MSTest.Tests;
 
 [TestClass]
-public class InitializeTest : IDisposable
+public sealed class InitializeTest : IDisposable
 {
     static int count;
 

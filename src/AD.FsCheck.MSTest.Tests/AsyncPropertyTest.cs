@@ -3,7 +3,7 @@
 #pragma warning disable IDE0060 // Remove unused parameter
 
 [TestClass]
-public class AsyncPropertyTest : CommandLineTest
+public sealed class AsyncPropertyTest : CommandLineTest
 {
     public AsyncPropertyTest() : base(nameof(AsyncPropertyTest))
     { }

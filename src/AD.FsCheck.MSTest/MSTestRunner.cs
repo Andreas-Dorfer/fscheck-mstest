@@ -4,16 +4,9 @@ using System.Text;
 
 namespace AD.FsCheck.MSTest;
 
-class MSTestRunner : IRunner
+sealed class MSTestRunner(bool verbose, bool quietOnSuccess) : IRunner
 {
-    readonly bool verbose, quietOnSuccess;
     readonly StringBuilder log = new();
-
-    public MSTestRunner(bool verbose, bool quietOnSuccess)
-    {
-        this.verbose = verbose;
-        this.quietOnSuccess = quietOnSuccess;
-    }
 
     public MSTestResult? Result { get; private set; }
 
@@ -31,7 +24,7 @@ class MSTestRunner : IRunner
 
     public void OnShrink(FSharpList<object> args, FSharpFunc<FSharpList<object>, string> everyShrink)
     {
-        if(verbose)
+        if (verbose)
         {
             log.AppendLine($"shrink: ({string.Join(", ", args)})");
         }

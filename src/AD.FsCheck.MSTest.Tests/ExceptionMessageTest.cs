@@ -1,7 +1,7 @@
 ﻿namespace AD.FsCheck.MSTest.Tests;
 
 [TestClass]
-public class ExceptionMessageTest : CommandLineTest
+public sealed class ExceptionMessageTest : CommandLineTest
 {
     static int count = 0;
 

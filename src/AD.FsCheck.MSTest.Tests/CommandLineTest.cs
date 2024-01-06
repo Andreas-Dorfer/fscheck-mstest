@@ -1,11 +1,10 @@
-﻿using FsCheck;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
 
 namespace AD.FsCheck.MSTest.Tests;
 
-public abstract class CommandLineTest : IDisposable
+public abstract partial class CommandLineTest : IDisposable
 {
     public enum Fetch
     {
@@ -29,7 +28,7 @@ public abstract class CommandLineTest : IDisposable
     protected async Task<int> AssertSuccess(string testName)
     {
         var result = await Run(testName, Fetch.StdOut);
-        var match = Regex.Match(result, @"^Ok, passed (\d+) tests.$");
+        var match = OkRegex().Match(result);
         IsTrue(match.Success);
         return int.Parse(match.Groups[1].Value);
     }
@@ -92,11 +91,16 @@ public abstract class CommandLineTest : IDisposable
             _ => "StdOut"
         };
 
+#pragma warning disable CA1816 // Dispose methods should call SuppressFinalize
     public void Dispose()
+#pragma warning restore CA1816 // Dispose methods should call SuppressFinalize
     {
         if (fileName is not null)
         {
             File.Delete(fileName);
         }
     }
+
+    [GeneratedRegex("^Ok, passed (\\d+) tests.$")]
+    private static partial Regex OkRegex();
 }
