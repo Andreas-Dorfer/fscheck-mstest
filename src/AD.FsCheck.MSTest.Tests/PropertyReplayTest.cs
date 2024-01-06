@@ -1,7 +1,7 @@
 ﻿namespace AD.FsCheck.MSTest.Tests;
 
 [TestClass]
-public class PropertyReplayTest : CommandLineTest
+public sealed class PropertyReplayTest : CommandLineTest
 {
     public PropertyReplayTest() : base(nameof(PropertyReplayTest))
     { }

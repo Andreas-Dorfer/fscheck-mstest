@@ -5,7 +5,7 @@ public struct NotGeneratable
 }
 
 [TestClass]
-public class InvokeErrorTest : CommandLineTest
+public sealed class InvokeErrorTest : CommandLineTest
 {
     public InvokeErrorTest() : base(nameof(InvokeErrorTest))
     { }

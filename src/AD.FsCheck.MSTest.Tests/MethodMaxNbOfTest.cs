@@ -3,7 +3,7 @@
 #pragma warning disable IDE0060 // Remove unused parameter
 
 [TestClass]
-public class MethodMaxNbOfTest : CommandLineTest
+public sealed class MethodMaxNbOfTest : CommandLineTest
 {
     const int MaxNbOfTest = 30;
 

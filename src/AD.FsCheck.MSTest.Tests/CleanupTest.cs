@@ -1,7 +1,7 @@
 ﻿namespace AD.FsCheck.MSTest.Tests;
 
 [TestClass]
-public class CleanupTest
+public sealed class CleanupTest
 {
     static int count = 2;
 

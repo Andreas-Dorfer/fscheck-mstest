@@ -1,7 +1,7 @@
 ﻿namespace AD.FsCheck.MSTest.Tests;
 
 [TestClass]
-public class DurationTest : CommandLineTest
+public sealed class DurationTest : CommandLineTest
 {
     const int NbOfTest = 10;
     const int Yield = 200;

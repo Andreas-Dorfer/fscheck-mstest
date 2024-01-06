@@ -112,11 +112,11 @@ public partial class PropertyAttribute : TestMethodAttribute, IRunConfiguration
             {
                 var runResult = runner.Result!;
                 runResult.TestFailureException = runException;
-                results = new[] { runResult };
+                results = [runResult];
             }
             else
             {
-                results = new[] { new MSTestResult { Outcome = UnitTestOutcome.NotRunnable, LogError = errorMsg } };
+                results = [new MSTestResult { Outcome = UnitTestOutcome.NotRunnable, LogError = errorMsg }];
             }
         }
 
@@ -130,7 +130,7 @@ public partial class PropertyAttribute : TestMethodAttribute, IRunConfiguration
             initializeCleanupException ??= ex.InnerException;
         }
 
-        results ??= new[] { new MSTestResult { Outcome = UnitTestOutcome.Failed, TestFailureException = initializeCleanupException } };
+        results ??= [new MSTestResult { Outcome = UnitTestOutcome.Failed, TestFailureException = initializeCleanupException }];
         stopWatch.Stop();
         results[0].Duration = stopWatch.Elapsed;
         return results;

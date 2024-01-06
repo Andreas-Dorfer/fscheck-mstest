@@ -1,7 +1,7 @@
 ﻿namespace AD.FsCheck.MSTest.Tests;
 
 [TestClass]
-public class AsyncLocalInitializeTest
+public sealed class AsyncLocalInitializeTest
 {
     static readonly AsyncLocal<Guid> propId = new();
 

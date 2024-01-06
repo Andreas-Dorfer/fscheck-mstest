@@ -1,7 +1,7 @@
 ﻿namespace AD.FsCheck.MSTest.Tests;
 
 [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
-public class CommandLinePropertyAttribute : PropertyAttribute
+public sealed class CommandLinePropertyAttribute : PropertyAttribute
 {
     public CommandLinePropertyAttribute()
     { }
@@ -15,7 +15,7 @@ public class CommandLinePropertyAttribute : PropertyAttribute
         }
         else
         {
-            return new[] { new TestResult { Outcome = UnitTestOutcome.Inconclusive } };
+            return [new TestResult { Outcome = UnitTestOutcome.Inconclusive }];
         }
     }
 }

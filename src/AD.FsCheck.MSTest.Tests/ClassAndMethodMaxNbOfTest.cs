@@ -3,7 +3,7 @@
 #pragma warning disable IDE0060 // Remove unused parameter
 
 [Properties(MaxNbOfTest = ClassMaxNbOfTest)]
-public class ClassAndMethodMaxNbOfTest : CommandLineTest
+public sealed class ClassAndMethodMaxNbOfTest : CommandLineTest
 {
     const int ClassMaxNbOfTest = 20;
     const int MethodMaxNbOfTest = 30;

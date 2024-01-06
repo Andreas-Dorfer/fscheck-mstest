@@ -1,7 +1,7 @@
 ﻿namespace AD.FsCheck.MSTest.Tests;
 
 [Properties(QuietOnSuccess = true)]
-public class QuietOnSuccessPropertiesTest : CommandLineTest
+public sealed class QuietOnSuccessPropertiesTest : CommandLineTest
 {
     public QuietOnSuccessPropertiesTest() : base(nameof(QuietOnSuccessPropertiesTest))
     { }

@@ -1,7 +1,7 @@
 ﻿namespace AD.FsCheck.MSTest.Tests;
 
 [TestClass]
-public class QuietOnSuccessTest : CommandLineTest
+public sealed class QuietOnSuccessTest : CommandLineTest
 {
     public QuietOnSuccessTest() : base(nameof(QuietOnSuccessTest))
     { }
