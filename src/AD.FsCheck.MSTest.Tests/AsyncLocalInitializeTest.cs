@@ -8,7 +8,7 @@ public sealed class AsyncLocalInitializeTest
     [PropertyInitialize]
     public static void PropertyInitialize(string propName)
     {
-        CollectionAssert.Contains(new[] {nameof(PropA), nameof(PropB)}, propName);
+        CollectionAssert.Contains(new[] { nameof(PropA), nameof(PropB) }, propName);
         propId.Value = Guid.NewGuid();
     }
 

@@ -24,7 +24,7 @@ sealed class MSTestRunner(bool verbose, bool quietOnSuccess) : IRunner
 
     public void OnShrink(FSharpList<object> args, FSharpFunc<FSharpList<object>, string> everyShrink)
     {
-        if(verbose)
+        if (verbose)
         {
             log.AppendLine($"shrink: ({string.Join(", ", args)})");
         }
