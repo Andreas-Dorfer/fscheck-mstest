@@ -4,7 +4,7 @@ using System.Xml.Linq;
 
 namespace AD.FsCheck.MSTest.Tests;
 
-public abstract partial class CommandLineTest : IDisposable
+public abstract partial class CommandLineTest(string className) : IDisposable
 {
     public enum Fetch
     {
@@ -16,14 +16,7 @@ public abstract partial class CommandLineTest : IDisposable
 
     public const string EnvironmentVariable = "CommandLine";
 
-    readonly string className;
-    readonly string fileName;
-
-    public CommandLineTest(string className)
-    {
-        this.className = className;
-        fileName = CreateTestFileName();
-    }
+    readonly string fileName = Path.ChangeExtension(Path.GetTempFileName(), ".trx");
 
     protected async Task<int> AssertSuccess(string testName)
     {
@@ -63,8 +56,6 @@ public abstract partial class CommandLineTest : IDisposable
         var output = await FetchTestOutput(fetch);
         return output;
     }
-
-    static string CreateTestFileName() => Path.ChangeExtension(Path.GetTempFileName(), ".trx");
 
     async Task RunCommandLineTest(string testName) =>
         await Process.Start("dotnet", @"test ..\..\..\." +
