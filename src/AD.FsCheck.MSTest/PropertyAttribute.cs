@@ -153,7 +153,7 @@ public partial class PropertyAttribute : TestMethodAttribute, IRunConfiguration
             try
             {
 #pragma warning disable CS8974 // Converting method group to non-delegate type
-                ((Property)invokeInfo.Invoke(null, new object[] { Invoke })!).Check(fsCheckConfig);
+                ((Property)invokeInfo.Invoke(null, [Invoke])!).Check(fsCheckConfig);
 #pragma warning restore CS8974 // Converting method group to non-delegate type
                 runException = ex;
                 return true;
