@@ -2,7 +2,7 @@
 # AD.FsCheck.MSTest
 Integrates [FsCheck](https://fscheck.github.io/FsCheck/) with [MSTest](https://github.com/microsoft/testfx/). Inspired by FsCheck's own [Xunit integration](https://www.nuget.org/packages/FsCheck.Xunit).
 ## NuGet Package
-    PM> Install-Package AndreasDorfer.FsCheck.MSTest -Version 1.1.1
+    PM> Install-Package AndreasDorfer.FsCheck.MSTest -Version 1.1.2
 ## TLDR
 Without `AD.FsCheck.MSTest` your tests look like this:
 ```csharp
@@ -79,8 +79,8 @@ public class PlusTest
 }
 ```
 ## Examples
-- [C#](https://github.com/Andreas-Dorfer/fscheck-mstest/blob/09e87d3a256bbb9b7f879f233ee0782393609386/src/AD.FsCheck.MSTest.Tests/VectorTest.cs)
-- [F#](https://github.com/Andreas-Dorfer/fscheck-mstest/blob/09e87d3a256bbb9b7f879f233ee0782393609386/src/AD.FsCheck.MSTest.FsTests/VectorTest.fs)
+- [C#](https://github.com/Andreas-Dorfer/fscheck-mstest/blob/main/src/AD.FsCheck.MSTest.Tests/VectorTest.cs)
+- [F#](https://github.com/Andreas-Dorfer/fscheck-mstest/blob/main/src/AD.FsCheck.MSTest.FsTests/VectorTest.fs)
 ## Limitations
 A property's return type **must be** `void` / `Task`.
 
