@@ -10,7 +10,7 @@ namespace AD.FsCheck.MSTest;
 [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
 public partial class PropertyAttribute : TestMethodAttribute, IRunConfiguration
 {
-    static readonly IRunConfiguration DefaultRunConfiguration = Configuration.Quick.ToRunConfiguration();
+    static readonly IRunConfiguration DefaultRunConfiguration = Config.Quick.ToRunConfiguration();
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PropertyAttribute"/> class.
@@ -136,7 +136,7 @@ public partial class PropertyAttribute : TestMethodAttribute, IRunConfiguration
         return results;
     }
 
-    bool TryInvoke(ITestMethod testMethod, Configuration fsCheckConfig, out Exception? runException, [NotNullWhen(false)] out string? errorMsg)
+    bool TryInvoke(ITestMethod testMethod, Config fsCheckConfig, out Exception? runException, [NotNullWhen(false)] out string? errorMsg)
     {
         var parameters = testMethod.ParameterTypes;
         if (TryGetInvokeMethodInfo(parameters.Length, out var methodInfo, out errorMsg))

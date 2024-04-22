@@ -1,30 +1,36 @@
-﻿using static FsCheck.Random;
+﻿using Microsoft.FSharp.Core;
 
 namespace AD.FsCheck.MSTest;
 
 /// <summary>
-/// Extension methods for <see cref="Configuration"/>.
+/// Extension methods for <see cref="Config"/>.
 /// </summary>
 public static class ConfigurationExtensions
 {
-    static string? FromStdGen(StdGen? stdGen)
+    static string? FromReplay(Replay? replay)
     {
-        if (stdGen is null) return null;
-        return $"{stdGen.Item1},{stdGen.Item2}";
+        if (replay is null) return null;
+        var replayString = $"{replay.Rnd.Seed},{replay.Rnd.Gamma}";
+        var size = OptionModule.ToNullable(replay.Size);
+        if (size is not null)
+        {
+            replayString += $",{size.Value}";
+        }
+        return replayString;
     }
 
     /// <summary>
-    /// Converts a <see cref="Configuration"/> to a <see cref="IRunConfiguration"/>.
+    /// Converts a <see cref="Config"/> to a <see cref="IRunConfiguration"/>.
     /// </summary>
-    /// <param name="configuration">The <see cref="Configuration"/> to convert.</param>
+    /// <param name="configuration">The <see cref="Config"/> to convert.</param>
     /// <returns>The created <see cref="IRunConfiguration"/>.</returns>
-    public static IRunConfiguration ToRunConfiguration(this Configuration configuration) =>
+    public static IRunConfiguration ToRunConfiguration(this Config configuration) =>
         new RunConfiguration(
-            configuration.MaxNbOfTest,
-            configuration.MaxNbOfFailedTests,
+            configuration.MaxTest,
+            configuration.MaxRejected,
             configuration.StartSize,
             configuration.EndSize,
-            FromStdGen(configuration.Replay),
+            FromReplay(OptionModule.ToObj(configuration.Replay)),
             false, //Verbose cannot be inferred from a Configuration
             configuration.QuietOnSuccess);
 }
