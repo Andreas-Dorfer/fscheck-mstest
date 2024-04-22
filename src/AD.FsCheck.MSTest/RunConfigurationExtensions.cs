@@ -9,8 +9,8 @@ static class RunConfigurationExtensions
         if (@else is null) return config;
 
         return new RunConfiguration(
-            config.MaxNbOfTest > -1 ? config.MaxNbOfTest : @else.MaxNbOfTest,
-            config.MaxNbOfFailedTests > -1 ? config.MaxNbOfFailedTests : @else.MaxNbOfFailedTests,
+            config.MaxTest > -1 ? config.MaxTest : @else.MaxTest,
+            config.MaxRejected > -1 ? config.MaxRejected : @else.MaxRejected,
             config.StartSize > -1 ? config.StartSize : @else.StartSize,
             config.EndSize > -1 ? config.EndSize : @else.EndSize,
             config.Replay ?? @else.Replay,
@@ -43,8 +43,8 @@ static class RunConfigurationExtensions
     }
 
     public static Config ToConfiguration(this IRunConfiguration config, IRunner runner) => Config.Default
-        .WithMaxTest(config.MaxNbOfTest)
-        .WithMaxRejected(config.MaxNbOfFailedTests)
+        .WithMaxTest(config.MaxTest)
+        .WithMaxRejected(config.MaxRejected)
         .WithStartSize(config.StartSize)
         .WithEndSize(config.EndSize)
         .WithReplay(OptionModule.OfObj(ToReplay(config.Replay)))

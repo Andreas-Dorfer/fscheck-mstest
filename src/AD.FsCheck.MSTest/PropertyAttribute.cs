@@ -33,10 +33,10 @@ public partial class PropertyAttribute : TestMethodAttribute, IRunConfiguration
     internal PropertiesAttribute? Parent { get; set; }
 
     /// <inheritdoc/>
-    public int MaxNbOfTest { get; set; } = -1;
+    public int MaxTest { get; set; } = -1;
 
     /// <inheritdoc/>
-    public int MaxNbOfFailedTests { get; set; } = -1;
+    public int MaxRejected { get; set; } = -1;
 
     /// <inheritdoc/>
     public int StartSize { get; set; } = -1;

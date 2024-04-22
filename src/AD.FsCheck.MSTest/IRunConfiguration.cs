@@ -8,12 +8,12 @@ public interface IRunConfiguration
     /// <summary>
     /// The maximum number of tests that are run.
     /// </summary>
-    int MaxNbOfTest { get; }
+    int MaxTest { get; }
 
     /// <summary>
     /// The maximum number of tests where values are rejected.
     /// </summary>
-    int MaxNbOfFailedTests { get; }
+    int MaxRejected { get; }
 
     /// <summary>
     /// The size to use for the first test.
