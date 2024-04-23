@@ -32,5 +32,6 @@ public static class ConfigurationExtensions
             configuration.EndSize,
             FromReplay(OptionModule.ToObj(configuration.Replay)),
             false, //Verbose cannot be inferred from a Configuration
-            configuration.QuietOnSuccess);
+            configuration.QuietOnSuccess,
+            []);
 }

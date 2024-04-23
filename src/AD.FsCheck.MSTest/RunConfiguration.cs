@@ -10,6 +10,7 @@
 /// <param name="Replay">If set, the seed to use to start testing.</param>
 /// <param name="Verbose">Output all generated arguments.</param>
 /// <param name="QuietOnSuccess">Suppresses the output from the test if the test is successful.</param>
+/// <param name="ArbitraryFactory">The Arbitrary factories to use for this test method.</param>
 public record RunConfiguration(
     int MaxTest,
     int MaxRejected,
@@ -17,4 +18,5 @@ public record RunConfiguration(
     int EndSize,
     string? Replay,
     bool Verbose,
-    bool QuietOnSuccess) : IRunConfiguration;
+    bool QuietOnSuccess,
+    Type[] ArbitraryFactory) : IRunConfiguration;

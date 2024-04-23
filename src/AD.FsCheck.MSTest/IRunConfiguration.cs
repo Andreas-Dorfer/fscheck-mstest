@@ -39,4 +39,9 @@ public interface IRunConfiguration
     /// Suppresses the output from the test if the test is successful.
     /// </summary>
     bool QuietOnSuccess { get; }
+
+    /// <summary>
+    /// The Arbitrary factories to use for this test method.
+    /// </summary>
+    Type[] ArbitraryFactory { get;}
 }

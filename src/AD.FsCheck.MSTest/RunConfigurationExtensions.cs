@@ -15,7 +15,8 @@ static class RunConfigurationExtensions
             config.EndSize > -1 ? config.EndSize : @else.EndSize,
             config.Replay ?? @else.Replay,
             config.Verbose || @else.Verbose,
-            config.QuietOnSuccess || @else.QuietOnSuccess);
+            config.QuietOnSuccess || @else.QuietOnSuccess,
+            [.. config.ArbitraryFactory, .. @else.ArbitraryFactory]);
     }
 
     static Replay? ToReplay(string? replayString)

@@ -54,6 +54,9 @@ public partial class PropertyAttribute : TestMethodAttribute, IRunConfiguration
     public bool QuietOnSuccess { get; set; }
 
     /// <inheritdoc/>
+    public Type[] ArbitraryFactory { get; set; } = [];
+
+    /// <inheritdoc/>
     public override MSTestResult[] Execute(ITestMethod testMethod)
     {
         var stopWatch = Stopwatch.StartNew();
