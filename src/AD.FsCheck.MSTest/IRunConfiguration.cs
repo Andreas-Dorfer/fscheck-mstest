@@ -43,5 +43,5 @@ public interface IRunConfiguration
     /// <summary>
     /// The Arbitrary factories to use for this test method.
     /// </summary>
-    Type[] ArbitraryFactory { get;}
+    Type[] ArbitraryFactory { get; }
 }
