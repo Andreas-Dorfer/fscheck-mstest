@@ -37,7 +37,7 @@ public sealed class ParametersTest : CommandLineTest
     #region Two
 
     [CommandLineProperty]
-    public void Two_parameters(int a, int b)
+    public void Two_parameters(int a, string b)
     { }
 
     [TestMethod]
@@ -48,7 +48,7 @@ public sealed class ParametersTest : CommandLineTest
     #region Three
 
     [CommandLineProperty]
-    public void Three_parameters(int a, int b, int c)
+    public void Three_parameters(int a, string b, Guid c)
     { }
 
     [TestMethod]
@@ -59,7 +59,7 @@ public sealed class ParametersTest : CommandLineTest
     #region Four
 
     [CommandLineProperty]
-    public void Four_parameters(int a, int b, int c, int d)
+    public void Four_parameters(int a, string b, Guid c, double d)
     { }
 
     [TestMethod]
@@ -70,7 +70,7 @@ public sealed class ParametersTest : CommandLineTest
     #region Five
 
     [CommandLineProperty]
-    public void Five_parameters(int a, int b, int c, int d, int e)
+    public void Five_parameters(int a, string b, Guid c, double d, decimal e)
     { }
 
     [TestMethod]
@@ -81,7 +81,7 @@ public sealed class ParametersTest : CommandLineTest
     #region Six
 
     [CommandLineProperty]
-    public void Six_parameters(int a, int b, int c, int d, int e, int f)
+    public void Six_parameters(int a, string b, Guid c, double d, decimal e, byte f)
     { }
 
     [TestMethod]
@@ -92,7 +92,7 @@ public sealed class ParametersTest : CommandLineTest
     #region Seven
 
     [CommandLineProperty]
-    public void Seven_parameters(int a, int b, int c, int d, int e, int f, int g)
+    public void Seven_parameters(int a, string b, Guid c, double d, decimal e, byte f, DateTime g)
     { }
 
     [TestMethod]
@@ -103,7 +103,7 @@ public sealed class ParametersTest : CommandLineTest
     #region Eight
 
     [CommandLineProperty]
-    public void Eight_parameters(int a, int b, int c, int d, int e, int f, int g, int h)
+    public void Eight_parameters(int a, string b, Guid c, double d, decimal e, byte f, DateTime g, char h)
     { }
 
     [TestMethod]
