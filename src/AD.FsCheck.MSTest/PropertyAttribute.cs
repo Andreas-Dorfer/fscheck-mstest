@@ -167,7 +167,7 @@ public partial class PropertyAttribute : TestMethodAttribute, IRunConfiguration
             }
             catch (TargetInvocationException invokeEx)
             {
-                errorMsg = invokeEx.InnerException?.Message ?? invokeEx.Message;
+                errorMsg = invokeEx.InnerException?.InnerException?.Message ?? invokeEx.InnerException?.Message ?? invokeEx.Message;
             }
         }
         runException = default;
