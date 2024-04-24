@@ -114,7 +114,6 @@ public partial class PropertyAttribute : TestMethodAttribute, IRunConfiguration
             var combined = this.OrElse(Parent).OrElse(assemblyConfig).OrElse(Default);
             MSTestRunner runner = new(combined.Verbose, combined.QuietOnSuccess);
             var fsCheckConfig = combined.ToConfiguration(runner);
-            var arbMap = ArbMap.Default;
             if (TryInvoke(testMethod, fsCheckConfig, BuildArbMap(combined), out var runException, out var errorMsg))
             {
                 var runResult = runner.Result!;
