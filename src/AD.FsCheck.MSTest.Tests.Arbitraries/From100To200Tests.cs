@@ -3,7 +3,7 @@
 [TestClass]
 public sealed class From100To200Tests
 {
-    [Property]
+    [Property(ArbitraryFactory = [typeof(Arbitraries)])]
     public void IsInRange(From100To200 x)
     {
         Assert.IsTrue(x.Value >= 100);

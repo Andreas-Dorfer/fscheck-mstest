@@ -13,7 +13,7 @@ public partial class PropertyAttribute
     static readonly MethodInfo Invoke1MethodInfo = typeof(PropertyAttribute).GetMethod(nameof(Invoke1), BindingFlags.Static | BindingFlags.NonPublic)!;
 
     static Property Invoke1<T1>(IArbMap arbMap, Func<object[], bool> method) =>
-        Prop.ForAll<T1>(v => method(new object[] { v! }));
+        Prop.ForAll<T1>(arbMap.ArbFor<T1>(), v => method(new object[] { v! }));
 
     static readonly MethodInfo Invoke2MethodInfo = typeof(PropertyAttribute).GetMethod(nameof(Invoke2), BindingFlags.Static | BindingFlags.NonPublic)!;
 

@@ -1,4 +1,5 @@
 ﻿using FsCheck.Fluent;
+using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
@@ -109,10 +110,12 @@ public partial class PropertyAttribute : TestMethodAttribute, IRunConfiguration
 
         if (initializeCleanupException is null)
         {
-            var combined = this.OrElse(Parent).OrElse(Default);
+            var assemblyConfig = GetAssemblyConfiguration(testMethod.MethodInfo.DeclaringType);
+            var combined = this.OrElse(Parent).OrElse(assemblyConfig).OrElse(Default);
             MSTestRunner runner = new(combined.Verbose, combined.QuietOnSuccess);
             var fsCheckConfig = combined.ToConfiguration(runner);
-            if (TryInvoke(testMethod, fsCheckConfig, out var runException, out var errorMsg))
+            var arbMap = ArbMap.Default;
+            if (TryInvoke(testMethod, fsCheckConfig, BuildArbMap(combined), out var runException, out var errorMsg))
             {
                 var runResult = runner.Result!;
                 runResult.TestFailureException = runException;
@@ -140,7 +143,7 @@ public partial class PropertyAttribute : TestMethodAttribute, IRunConfiguration
         return results;
     }
 
-    bool TryInvoke(ITestMethod testMethod, Config fsCheckConfig, out Exception? runException, [NotNullWhen(false)] out string? errorMsg)
+    bool TryInvoke(ITestMethod testMethod, Config fsCheckConfig, IArbMap arbMap, out Exception? runException, [NotNullWhen(false)] out string? errorMsg)
     {
         var parameters = testMethod.ParameterTypes;
         if (TryGetInvokeMethodInfo(parameters.Length, out var methodInfo, out errorMsg))
@@ -152,8 +155,6 @@ public partial class PropertyAttribute : TestMethodAttribute, IRunConfiguration
                 ex ??= testResult.TestFailureException;
                 return testResult.Outcome == UnitTestOutcome.Passed;
             }
-
-            var arbMap = ArbMap.Default;
 
             var invokeInfo = methodInfo.MakeGenericMethod(parameters.Select(_ => _.ParameterType).ToArray());
             try
@@ -171,5 +172,33 @@ public partial class PropertyAttribute : TestMethodAttribute, IRunConfiguration
         }
         runException = default;
         return false;
+    }
+
+    static readonly ConcurrentDictionary<Assembly, IRunConfiguration?> assemblyConfigurations = [];
+
+    static IRunConfiguration? GetAssemblyConfiguration(Type? type) =>
+        type is null ? null :
+        assemblyConfigurations.GetOrAdd(type.Assembly, assembly => assembly.GetCustomAttribute<PropertiesAttribute>());
+
+    static IArbMap BuildArbMap(IRunConfiguration runConfiguration)
+    {
+        var arbMap = ArbMap.Default;
+
+        foreach (var factoryType in runConfiguration.ArbitraryFactory)
+        {
+            var merge = factoryType.GetMethod("Merge", BindingFlags.Public | BindingFlags.Static | BindingFlags.InvokeMethod);
+            if (merge is null ||
+                merge.IsGenericMethod ||
+                merge.ReturnType != typeof(IArbMap)) continue;
+            var parameter = merge.GetParameters();
+            if (parameter.Length != 1 ||
+                parameter[0].ParameterType != typeof(IArbMap)) continue;
+
+            var next = (IArbMap)merge.Invoke(null, [arbMap])!;
+            if (next is null) continue;
+            arbMap = next;
+        }
+
+        return arbMap;
     }
 }
