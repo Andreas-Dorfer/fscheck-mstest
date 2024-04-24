@@ -8,40 +8,42 @@ namespace AD.FsCheck.MSTest;
 
 public partial class PropertyAttribute
 {
+    static Property Combine<T>(IArbMap arbMap, Func<T, Property> action) => Prop.ForAll(arbMap.ArbFor<T>(), action);
+
     static readonly MethodInfo Invoke1MethodInfo = typeof(PropertyAttribute).GetMethod(nameof(Invoke1), BindingFlags.Static | BindingFlags.NonPublic)!;
 
-    static Property Invoke1<T1>(Func<object[], bool> method) =>
-        Prop.ForAll<T1>(values => method(new object[] { values! }));
+    static Property Invoke1<T1>(IArbMap arbMap, Func<object[], bool> method) =>
+        Prop.ForAll<T1>(v => method(new object[] { v! }));
 
     static readonly MethodInfo Invoke2MethodInfo = typeof(PropertyAttribute).GetMethod(nameof(Invoke2), BindingFlags.Static | BindingFlags.NonPublic)!;
 
-    static Property Invoke2<T1, T2>(Func<object[], bool> method) =>
-        Prop.ForAll<Tuple<T1, T2>>(values => method(new object[] { values.Item1!, values.Item2! }));
+    static Property Invoke2<T1, T2>(IArbMap arbMap, Func<object[], bool> method) =>
+        Combine<T1>(arbMap, v => Invoke1<T2>(arbMap, values => method([v!, values[0]!])));
 
     static readonly MethodInfo Invoke3MethodInfo = typeof(PropertyAttribute).GetMethod(nameof(Invoke3), BindingFlags.Static | BindingFlags.NonPublic)!;
 
-    static Property Invoke3<T1, T2, T3>(Func<object[], bool> method) =>
-        Prop.ForAll<Tuple<T1, T2, T3>>(values => method(new object[] { values.Item1!, values.Item2!, values.Item3! }));
+    static Property Invoke3<T1, T2, T3>(IArbMap arbMap, Func<object[], bool> method) =>
+        Combine<T1>(arbMap, v => Invoke2<T2, T3>(arbMap, values => method([v!, values[0]!, values[1]])));
 
     static readonly MethodInfo Invoke4MethodInfo = typeof(PropertyAttribute).GetMethod(nameof(Invoke4), BindingFlags.Static | BindingFlags.NonPublic)!;
 
-    static Property Invoke4<T1, T2, T3, T4>(Func<object[], bool> method) =>
-        Prop.ForAll<Tuple<T1, T2, T3, T4>>(values => method(new object[] { values.Item1!, values.Item2!, values.Item3!, values.Item4! }));
+    static Property Invoke4<T1, T2, T3, T4>(IArbMap arbMap, Func<object[], bool> method) =>
+        Combine<T1>(arbMap, v => Invoke3<T2, T3, T4>(arbMap, values => method([v!, values[0]!, values[1], values[2]])));
 
     static readonly MethodInfo Invoke5MethodInfo = typeof(PropertyAttribute).GetMethod(nameof(Invoke5), BindingFlags.Static | BindingFlags.NonPublic)!;
 
-    static Property Invoke5<T1, T2, T3, T4, T5>(Func<object[], bool> method) =>
-        Prop.ForAll<Tuple<T1, T2, T3, T4, T5>>(values => method(new object[] { values.Item1!, values.Item2!, values.Item3!, values.Item4!, values.Item5! }));
+    static Property Invoke5<T1, T2, T3, T4, T5>(IArbMap arbMap, Func<object[], bool> method) =>
+        Combine<T1>(arbMap, v => Invoke4<T2, T3, T4, T5>(arbMap, values => method([v!, values[0]!, values[1], values[2], values[3]])));
 
     static readonly MethodInfo Invoke6MethodInfo = typeof(PropertyAttribute).GetMethod(nameof(Invoke6), BindingFlags.Static | BindingFlags.NonPublic)!;
 
-    static Property Invoke6<T1, T2, T3, T4, T5, T6>(Func<object[], bool> method) =>
-        Prop.ForAll<Tuple<T1, T2, T3, T4, T5, T6>>(values => method(new object[] { values.Item1!, values.Item2!, values.Item3!, values.Item4!, values.Item5!, values.Item6! }));
+    static Property Invoke6<T1, T2, T3, T4, T5, T6>(IArbMap arbMap, Func<object[], bool> method) =>
+        Combine<T1>(arbMap, v => Invoke5<T2, T3, T4, T5, T6>(arbMap, values => method([v!, values[0]!, values[1], values[2], values[3], values[4]])));
 
     static readonly MethodInfo Invoke7MethodInfo = typeof(PropertyAttribute).GetMethod(nameof(Invoke7), BindingFlags.Static | BindingFlags.NonPublic)!;
 
-    static Property Invoke7<T1, T2, T3, T4, T5, T6, T7>(Func<object[], bool> method) =>
-        Prop.ForAll<Tuple<T1, T2, T3, T4, T5, T6, T7>>(values => method(new object[] { values.Item1!, values.Item2!, values.Item3!, values.Item4!, values.Item5!, values.Item6!, values.Item7! }));
+    static Property Invoke7<T1, T2, T3, T4, T5, T6, T7>(IArbMap arbMap, Func<object[], bool> method) =>
+        Combine<T1>(arbMap, v => Invoke6<T2, T3, T4, T5, T6, T7>(arbMap, values => method([v!, values[0]!, values[1], values[2], values[3], values[4], values[5]])));
 
     bool TryGetInvokeMethodInfo(int count, [NotNullWhen(true)] out MethodInfo? methodInfo, [NotNullWhen(false)] out string? errorMsg)
     {

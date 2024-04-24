@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using FsCheck.Fluent;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
@@ -152,11 +153,13 @@ public partial class PropertyAttribute : TestMethodAttribute, IRunConfiguration
                 return testResult.Outcome == UnitTestOutcome.Passed;
             }
 
+            var arbMap = ArbMap.Default;
+
             var invokeInfo = methodInfo.MakeGenericMethod(parameters.Select(_ => _.ParameterType).ToArray());
             try
             {
 #pragma warning disable CS8974 // Converting method group to non-delegate type
-                ((Property)invokeInfo.Invoke(null, [Invoke])!).Check(fsCheckConfig);
+                ((Property)invokeInfo.Invoke(null, [arbMap, Invoke])!).Check(fsCheckConfig);
 #pragma warning restore CS8974 // Converting method group to non-delegate type
                 runException = ex;
                 return true;
