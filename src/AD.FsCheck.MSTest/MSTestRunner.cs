@@ -34,12 +34,13 @@ sealed class MSTestRunner(bool verbose, bool quietOnSuccess) : IRunner
     public void OnFinished(string name, FsCheckResult testResult) =>
         Result = testResult switch
         {
-            FsCheckResult.True => new()
+            FsCheckResult.Passed => new()
             {
                 Outcome = MSTestOutcome.Passed,
                 LogOutput = quietOnSuccess ? null : log.Append(Runner.onFinishedToString("", testResult)).ToString()
             },
-            FsCheckResult.False => new()
+            FsCheckResult.Exhausted or
+            FsCheckResult.Failed => new()
             {
                 Outcome = MSTestOutcome.Failed,
                 LogError = log.Append(Runner.onFinishedToString("", testResult)).ToString()

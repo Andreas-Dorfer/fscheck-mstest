@@ -8,12 +8,12 @@ public interface IRunConfiguration
     /// <summary>
     /// The maximum number of tests that are run.
     /// </summary>
-    int MaxNbOfTest { get; }
+    int MaxTest { get; }
 
     /// <summary>
     /// The maximum number of tests where values are rejected.
     /// </summary>
-    int MaxNbOfFailedTests { get; }
+    int MaxRejected { get; }
 
     /// <summary>
     /// The size to use for the first test.
@@ -39,4 +39,9 @@ public interface IRunConfiguration
     /// Suppresses the output from the test if the test is successful.
     /// </summary>
     bool QuietOnSuccess { get; }
+
+    /// <summary>
+    /// The Arbitrary instances to use for this test method.
+    /// </summary>
+    Type[] Arbitrary{ get; }
 }

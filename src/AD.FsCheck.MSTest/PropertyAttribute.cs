@@ -1,4 +1,6 @@
-﻿using System.Diagnostics;
+﻿using FsCheck.Fluent;
+using System.Collections.Concurrent;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
@@ -10,7 +12,7 @@ namespace AD.FsCheck.MSTest;
 [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
 public partial class PropertyAttribute : TestMethodAttribute, IRunConfiguration
 {
-    static readonly IRunConfiguration DefaultRunConfiguration = Configuration.Quick.ToRunConfiguration();
+    static readonly IRunConfiguration DefaultRunConfiguration = Config.Quick.ToRunConfiguration();
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PropertyAttribute"/> class.
@@ -33,10 +35,10 @@ public partial class PropertyAttribute : TestMethodAttribute, IRunConfiguration
     internal PropertiesAttribute? Parent { get; set; }
 
     /// <inheritdoc/>
-    public int MaxNbOfTest { get; set; } = -1;
+    public int MaxTest { get; set; } = -1;
 
     /// <inheritdoc/>
-    public int MaxNbOfFailedTests { get; set; } = -1;
+    public int MaxRejected { get; set; } = -1;
 
     /// <inheritdoc/>
     public int StartSize { get; set; } = -1;
@@ -52,6 +54,9 @@ public partial class PropertyAttribute : TestMethodAttribute, IRunConfiguration
 
     /// <inheritdoc/>
     public bool QuietOnSuccess { get; set; }
+
+    /// <inheritdoc/>
+    public Type[] Arbitrary { get; set; } = [];
 
     /// <inheritdoc/>
     public override MSTestResult[] Execute(ITestMethod testMethod)
@@ -105,7 +110,8 @@ public partial class PropertyAttribute : TestMethodAttribute, IRunConfiguration
 
         if (initializeCleanupException is null)
         {
-            var combined = this.OrElse(Parent).OrElse(Default);
+            var assemblyConfig = GetAssemblyConfiguration(testMethod.MethodInfo.DeclaringType);
+            var combined = this.OrElse(Parent).OrElse(assemblyConfig).OrElse(Default);
             MSTestRunner runner = new(combined.Verbose, combined.QuietOnSuccess);
             var fsCheckConfig = combined.ToConfiguration(runner);
             if (TryInvoke(testMethod, fsCheckConfig, out var runException, out var errorMsg))
@@ -136,7 +142,7 @@ public partial class PropertyAttribute : TestMethodAttribute, IRunConfiguration
         return results;
     }
 
-    bool TryInvoke(ITestMethod testMethod, Configuration fsCheckConfig, out Exception? runException, [NotNullWhen(false)] out string? errorMsg)
+    bool TryInvoke(ITestMethod testMethod, Config fsCheckConfig, out Exception? runException, [NotNullWhen(false)] out string? errorMsg)
     {
         var parameters = testMethod.ParameterTypes;
         if (TryGetInvokeMethodInfo(parameters.Length, out var methodInfo, out errorMsg))
@@ -153,17 +159,23 @@ public partial class PropertyAttribute : TestMethodAttribute, IRunConfiguration
             try
             {
 #pragma warning disable CS8974 // Converting method group to non-delegate type
-                ((Property)invokeInfo.Invoke(null, [Invoke])!).Check(fsCheckConfig);
+                ((Property)invokeInfo.Invoke(null, [fsCheckConfig.ArbMap, Invoke])!).Check(fsCheckConfig);
 #pragma warning restore CS8974 // Converting method group to non-delegate type
                 runException = ex;
                 return true;
             }
             catch (TargetInvocationException invokeEx)
             {
-                errorMsg = invokeEx.InnerException?.Message ?? invokeEx.Message;
+                errorMsg = invokeEx.InnerException?.InnerException?.Message ?? invokeEx.InnerException?.Message ?? invokeEx.Message;
             }
         }
         runException = default;
         return false;
     }
+
+    static readonly ConcurrentDictionary<Assembly, IRunConfiguration?> assemblyConfigurations = [];
+
+    static IRunConfiguration? GetAssemblyConfiguration(Type? type) =>
+        type is null ? null :
+        assemblyConfigurations.GetOrAdd(type.Assembly, assembly => assembly.GetCustomAttribute<PropertiesAttribute>());
 }

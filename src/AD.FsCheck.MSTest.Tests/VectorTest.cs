@@ -7,7 +7,7 @@ public record Vector(int X, int Y)
     public static Vector PlusIdentity { get; } = new(0, 0);
 }
 
-[Properties(MaxNbOfTest = 1000)]
+[Properties(MaxTest = 1000)]
 public sealed class VectorTest
 {
     [Property]
@@ -23,7 +23,7 @@ public sealed class VectorTest
 [TestClass]
 public sealed class VectorSerializationTest
 {
-    [Property(MaxNbOfTest = 10)]
+    [Property(MaxTest = 10)]
     public async Task Serialize_and_deserialize(Vector expected)
     {
         var actual = await Deserialize(await Serialize(expected));

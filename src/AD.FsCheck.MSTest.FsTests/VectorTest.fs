@@ -12,7 +12,7 @@ with static member (+) (a, b) = { X = a.X + b.X; Y = a.Y + b.Y }
 module Vector =
     let plusIdentity = { X = 0; Y = 0}
 
-[<Properties(MaxNbOfTest = 1000)>]
+[<Properties(MaxTest = 1000)>]
 type VectorTest () =
     
     [<Property>]
@@ -39,7 +39,7 @@ type VectorSerializationTest () =
         return vector
     }
 
-    [<Property(MaxNbOfTest = 10)>]
+    [<Property(MaxTest = 10)>]
     member _.```Serialize and deserialize`` expected : Task = task {
         let! data = expected |> serialize
         let! actual = data |> deserialize
