@@ -41,7 +41,7 @@ public interface IRunConfiguration
     bool QuietOnSuccess { get; }
 
     /// <summary>
-    /// The Arbitrary factories to use for this test method.
+    /// The Arbitrary instances to use for this test method.
     /// </summary>
-    Type[] ArbitraryFactory { get; }
+    Type[] Arbitrary{ get; }
 }

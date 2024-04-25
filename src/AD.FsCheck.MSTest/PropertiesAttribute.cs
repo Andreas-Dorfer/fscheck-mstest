@@ -30,7 +30,7 @@ public class PropertiesAttribute : TestClassAttribute, IRunConfiguration
     public bool QuietOnSuccess { get; set; }
 
     /// <inheritdoc/>
-    public Type[] ArbitraryFactory { get; set; } = [];
+    public Type[] Arbitrary { get; set; } = [];
 
     /// <inheritdoc/>
     public override TestMethodAttribute? GetTestMethodAttribute(TestMethodAttribute? testMethodAttribute)

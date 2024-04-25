@@ -16,7 +16,7 @@ static class RunConfigurationExtensions
             config.Replay ?? @else.Replay,
             config.Verbose || @else.Verbose,
             config.QuietOnSuccess || @else.QuietOnSuccess,
-            [.. config.ArbitraryFactory, .. @else.ArbitraryFactory]);
+            [.. config.Arbitrary, .. @else.Arbitrary]);
     }
 
     static Replay? ToReplay(string? replayString)
@@ -50,5 +50,6 @@ static class RunConfigurationExtensions
         .WithEndSize(config.EndSize)
         .WithReplay(OptionModule.OfObj(ToReplay(config.Replay)))
         .WithQuietOnSuccess(config.QuietOnSuccess)
-        .WithRunner(runner);
+        .WithRunner(runner)
+        .WithArbitrary(config.Arbitrary);
 }
