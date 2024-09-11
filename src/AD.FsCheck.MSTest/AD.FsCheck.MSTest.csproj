@@ -1,10 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <TargetFramework/>
+    <TargetFrameworks>netstandard2.0;net8.0</TargetFrameworks>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <PackageId>$(MSBuildProjectName.Replace("AD", "AndreasDorfer"))</PackageId>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-    <Version>3.0.0-rc1.1</Version>
+    <Version>3.0.0-rc1.2</Version>
     <Authors>Andreas Dorfer</Authors>
     <Description>Integrates FsCheck with MSTest.</Description>
     <RepositoryUrl>https://github.com/Andreas-Dorfer/fscheck-mstest</RepositoryUrl>
