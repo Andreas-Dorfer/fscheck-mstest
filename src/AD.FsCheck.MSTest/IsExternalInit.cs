@@ -4,7 +4,8 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 // ReSharper disable once CheckNamespace
-namespace System.Runtime.CompilerServices
-{
-   internal sealed class IsExternalInit { }
-}
+#pragma warning disable IDE0130 // Namespace does not match folder structure
+namespace System.Runtime.CompilerServices;
+#pragma warning restore IDE0130 // Namespace does not match folder structure
+
+internal static class IsExternalInit;
