@@ -33,7 +33,7 @@ public class PropertiesAttribute : TestClassAttribute, IRunConfiguration
     public Type[] Arbitrary { get; set; } = [];
 
     /// <inheritdoc/>
-    public override TestMethodAttribute? GetTestMethodAttribute(TestMethodAttribute? testMethodAttribute)
+    public override TestMethodAttribute? GetTestMethodAttribute(TestMethodAttribute testMethodAttribute)
     {
         if (testMethodAttribute is PropertyAttribute propertyAttribute)
         {

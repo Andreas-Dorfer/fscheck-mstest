@@ -12,7 +12,7 @@ public sealed class InitializeTest : IDisposable
         count++;
     }
 
-    [ClassCleanup(ClassCleanupBehavior.EndOfClass)]
+    [ClassCleanup]
     public static void ClassClenup()
     {
         AreEqual(2, count);
@@ -26,6 +26,6 @@ public sealed class InitializeTest : IDisposable
 
     public void Dispose()
     {
-        IsTrue(count > 0);
+        IsGreaterThan(0, count);
     }
 }

@@ -24,6 +24,6 @@ public sealed class VerboseTest : CommandLineTest
     {
         var result = await Run(testName, Fetch.StdOut);
         var lines = result.Split(Environment.NewLine);
-        AreEqual(expectedLines, lines.Length);
+        HasCount(expectedLines, lines);
     }
 }

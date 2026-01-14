@@ -12,7 +12,7 @@ public sealed class CleanupTest
         count--;
     }
 
-    [ClassCleanup(ClassCleanupBehavior.EndOfClass)]
+    [ClassCleanup]
     public static void ClassClenup()
     {
         AreEqual(0, count);

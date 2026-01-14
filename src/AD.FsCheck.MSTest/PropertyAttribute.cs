@@ -3,29 +3,21 @@ using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 
 namespace AD.FsCheck.MSTest;
 
 /// <summary>
 /// Run this method as an FsCheck test.
 /// </summary>
+/// <remarks>
+/// Initializes a new instance of the <see cref="PropertyAttribute"/> class.
+/// </remarks>
 [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
-public partial class PropertyAttribute : TestMethodAttribute, IRunConfiguration
+public partial class PropertyAttribute([CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1) : TestMethodAttribute(callerFilePath, callerLineNumber), IRunConfiguration
 {
     static readonly IRunConfiguration DefaultRunConfiguration = Config.Quick.ToRunConfiguration();
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="PropertyAttribute"/> class.
-    /// </summary>
-    public PropertyAttribute()
-    { }
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="PropertyAttribute"/> class.
-    /// </summary>
-    /// <param name="displayName"><inheritdoc/></param>
-    public PropertyAttribute(string displayName) : base(displayName)
-    { }
 
     /// <summary>
     /// Returns the default <see cref="IRunConfiguration"/>.
@@ -59,7 +51,7 @@ public partial class PropertyAttribute : TestMethodAttribute, IRunConfiguration
     public Type[] Arbitrary { get; set; } = [];
 
     /// <inheritdoc/>
-    public override MSTestResult[] Execute(ITestMethod testMethod)
+    public override async Task<MSTestResult[]> ExecuteAsync(ITestMethod testMethod)
     {
         var stopWatch = Stopwatch.StartNew();
 
@@ -114,7 +106,8 @@ public partial class PropertyAttribute : TestMethodAttribute, IRunConfiguration
             var combined = this.OrElse(Parent).OrElse(assemblyConfig).OrElse(Default);
             MSTestRunner runner = new(combined.Verbose, combined.QuietOnSuccess);
             var fsCheckConfig = combined.ToConfiguration(runner);
-            if (TryInvoke(testMethod, fsCheckConfig, out var runException, out var errorMsg))
+            var (success, runException, errorMsg) = await TryInvoke(testMethod, fsCheckConfig);
+            if (success)
             {
                 var runResult = runner.Result!;
                 runResult.TestFailureException = runException;
@@ -142,15 +135,15 @@ public partial class PropertyAttribute : TestMethodAttribute, IRunConfiguration
         return results;
     }
 
-    bool TryInvoke(ITestMethod testMethod, Config fsCheckConfig, out Exception? runException, [NotNullWhen(false)] out string? errorMsg)
+    async Task<(bool Success, Exception? RunException, string? ErrorMsg)> TryInvoke(ITestMethod testMethod, Config fsCheckConfig)
     {
         var parameters = testMethod.ParameterTypes;
-        if (TryGetInvokeMethodInfo(parameters.Length, out var methodInfo, out errorMsg))
+        if (TryGetInvokeMethodInfo(parameters.Length, out var methodInfo, out var errorMsg))
         {
             Exception? ex = default;
-            bool Invoke(object[] values)
+            async Task<bool> Invoke(object[] values)
             {
-                var testResult = testMethod.Invoke(values);
+                var testResult = await testMethod.InvokeAsync(values);
                 ex ??= testResult.TestFailureException;
                 return testResult.Outcome == UnitTestOutcome.Passed;
             }
@@ -161,16 +154,14 @@ public partial class PropertyAttribute : TestMethodAttribute, IRunConfiguration
 #pragma warning disable CS8974 // Converting method group to non-delegate type
                 ((Property)invokeInfo.Invoke(null, [fsCheckConfig.ArbMap, Invoke])!).Check(fsCheckConfig);
 #pragma warning restore CS8974 // Converting method group to non-delegate type
-                runException = ex;
-                return true;
+                return (true, ex, errorMsg);
             }
             catch (TargetInvocationException invokeEx)
             {
                 errorMsg = invokeEx.InnerException?.InnerException?.Message ?? invokeEx.InnerException?.Message ?? invokeEx.Message;
             }
         }
-        runException = default;
-        return false;
+        return (false, RunException: default, errorMsg);
     }
 
     static readonly ConcurrentDictionary<Assembly, IRunConfiguration?> assemblyConfigurations = [];
