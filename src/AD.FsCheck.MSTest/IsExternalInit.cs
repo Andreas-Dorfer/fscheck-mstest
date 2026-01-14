@@ -1,15 +1,10 @@
-﻿using System.ComponentModel;
+﻿// from https://github.com/dotnet/runtime/blob/48ae96799fa048302d5e323cee204ae7fbb4edde/src/tasks/Common/IsExternalInit.cs
 
-#pragma warning disable IDE0130 // Namespace does not match folder structure
-namespace System.Runtime.CompilerServices;
-#pragma warning restore IDE0130 // Namespace does not match folder structure
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
 
-/// <summary>
-/// Supports compiler features that require the IsExternalInit type for initialization-only properties. This type is not
-/// intended to be used directly in application code.
-/// </summary>
-/// <remarks>This type is used by the C# compiler to enable the 'init' accessor for properties in versions of .NET
-/// that do not natively include it. It is typically defined in user code or by libraries to provide compatibility with
-/// newer language features when targeting older frameworks.</remarks>
-[EditorBrowsable(EditorBrowsableState.Never)]
-internal static class IsExternalInit;
+// ReSharper disable once CheckNamespace
+namespace System.Runtime.CompilerServices
+{
+   internal sealed class IsExternalInit { }
+}
