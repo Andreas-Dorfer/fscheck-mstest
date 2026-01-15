@@ -9,7 +9,7 @@ public sealed class DurationTest : CommandLineTest
     public DurationTest() : base(nameof(DurationTest))
     { }
 
-    [Property(MaxNbOfTest = NbOfTest)]
+    [Property(MaxTest = NbOfTest)]
     public async Task Duration(int _) => await Task.Delay(Yield);
 
     [TestMethod]

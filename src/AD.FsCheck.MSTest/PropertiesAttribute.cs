@@ -3,14 +3,14 @@
 /// <summary>
 /// Set common configuration for all properties within this class.
 /// </summary>
-[AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
+[AttributeUsage(AttributeTargets.Assembly | AttributeTargets.Class, AllowMultiple = false)]
 public class PropertiesAttribute : TestClassAttribute, IRunConfiguration
 {
     /// <inheritdoc/>
-    public int MaxNbOfTest { get; set; } = -1;
+    public int MaxTest { get; set; } = -1;
 
     /// <inheritdoc/>
-    public int MaxNbOfFailedTests { get; set; } = -1;
+    public int MaxRejected { get; set; } = -1;
 
     /// <inheritdoc/>
     public int StartSize { get; set; } = -1;
@@ -30,7 +30,10 @@ public class PropertiesAttribute : TestClassAttribute, IRunConfiguration
     public bool QuietOnSuccess { get; set; }
 
     /// <inheritdoc/>
-    public override TestMethodAttribute? GetTestMethodAttribute(TestMethodAttribute? testMethodAttribute)
+    public Type[] Arbitrary { get; set; } = [];
+
+    /// <inheritdoc/>
+    public override TestMethodAttribute? GetTestMethodAttribute(TestMethodAttribute testMethodAttribute)
     {
         if (testMethodAttribute is PropertyAttribute propertyAttribute)
         {

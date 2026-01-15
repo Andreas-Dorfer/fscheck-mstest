@@ -26,7 +26,7 @@ public abstract partial class CommandLineTest(string className) : IDisposable
         return int.Parse(match.Groups[1].Value);
     }
 
-    static void AssertIsFalsifiableText(string text) => IsTrue(text.StartsWith("Falsifiable"));
+    static void AssertIsFalsifiableText(string text) => StartsWith("Falsifiable", text);
 
     protected async Task AssertFalsifiable(string testName)
     {
@@ -41,13 +41,13 @@ public abstract partial class CommandLineTest(string className) : IDisposable
         var message = await FetchTestOutput(Fetch.Message);
 
         AssertIsFalsifiableText(result);
-        IsTrue(message.EndsWith(expectedMessage));
+        EndsWith(expectedMessage, message);
     }
 
     protected async Task AssertMessage(string testName, string expectedMessage)
     {
         var message = await Run(testName, Fetch.Message);
-        IsTrue(message.EndsWith(expectedMessage));
+        EndsWith(expectedMessage, message);
     }
 
     protected async Task<string> Run(string testName, Fetch fetch)

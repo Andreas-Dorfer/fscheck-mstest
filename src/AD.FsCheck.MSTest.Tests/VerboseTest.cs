@@ -1,9 +1,9 @@
 ﻿namespace AD.FsCheck.MSTest.Tests;
 
-[Properties(MaxNbOfTest = MaxNbOfTest)]
+[Properties(MaxTest = MaxTest)]
 public sealed class VerboseTest : CommandLineTest
 {
-    const int MaxNbOfTest = 20;
+    const int MaxTest = 20;
 
     public VerboseTest() : base(nameof(VerboseTest))
     { }
@@ -12,7 +12,7 @@ public sealed class VerboseTest : CommandLineTest
     public void Verbose(int a, int b) => AreEqual(a + b, b + a);
 
     [TestMethod]
-    public async Task Verbose_test() => await Test(nameof(Verbose), MaxNbOfTest + 1);
+    public async Task Verbose_test() => await Test(nameof(Verbose), MaxTest + 1);
 
     [CommandLineProperty]
     public void NotVerbose(int a, int b) => AreEqual(a + b, b + a);
@@ -24,6 +24,6 @@ public sealed class VerboseTest : CommandLineTest
     {
         var result = await Run(testName, Fetch.StdOut);
         var lines = result.Split(Environment.NewLine);
-        AreEqual(expectedLines, lines.Length);
+        HasCount(expectedLines, lines);
     }
 }

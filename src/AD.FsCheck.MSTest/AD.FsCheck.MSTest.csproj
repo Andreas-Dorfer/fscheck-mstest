@@ -4,7 +4,7 @@
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <PackageId>$(MSBuildProjectName.Replace("AD", "AndreasDorfer"))</PackageId>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-    <Version>1.1.2</Version>
+    <Version>3.0.0</Version>
     <Authors>Andreas Dorfer</Authors>
     <Description>Integrates FsCheck with MSTest.</Description>
     <RepositoryUrl>https://github.com/Andreas-Dorfer/fscheck-mstest</RepositoryUrl>
@@ -14,16 +14,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="PropertyAttribute.Invoke.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>PropertyAttribute.Invoke.tt</DependentUpon>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="FsCheck" Version="2.16.6" />
-    <PackageReference Include="MSTest.TestFramework" Version="3.2.2" />
+    <PackageReference Include="FsCheck" Version="3.3.2" />
+    <PackageReference Include="MSTest.TestFramework" Version="4.0.2" />
   </ItemGroup>
 
   <ItemGroup>

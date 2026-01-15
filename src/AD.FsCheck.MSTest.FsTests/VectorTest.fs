@@ -12,14 +12,14 @@ with static member (+) (a, b) = { X = a.X + b.X; Y = a.Y + b.Y }
 module Vector =
     let plusIdentity = { X = 0; Y = 0}
 
-[<Properties(MaxNbOfTest = 1000)>]
+[<Properties(MaxTest = 1000)>]
 type VectorTest () =
     
     [<Property>]
     member _.``Plus is commutative`` (a: Vector, b) = AreEqual<Vector> (a + b, b + a)
 
     [<Property>]
-    member _.``Plus is associative`` (a: Vector, b, c) = AreEqual<Vector> (a + b + c, a + (b + c))
+    member _.``Plus is associative`` (a: Vector, b: Vector, c: Vector) = AreEqual<Vector> (a + b + c, a + (b + c))
 
     [<Property>]
     member _.``There is a plus identity element`` a = AreEqual<Vector> (a, a + Vector.plusIdentity)
@@ -39,7 +39,7 @@ type VectorSerializationTest () =
         return vector
     }
 
-    [<Property(MaxNbOfTest = 10)>]
+    [<Property(MaxTest = 10)>]
     member _.```Serialize and deserialize`` expected : Task = task {
         let! data = expected |> serialize
         let! actual = data |> deserialize

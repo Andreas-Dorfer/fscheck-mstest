@@ -18,7 +18,7 @@ public sealed class InvokeErrorTest : CommandLineTest
     public async Task CannotGenerate_test()
     {
         var msg = await Run(nameof(CannotGenerate), Fetch.StdErr);
-        AreEqual($"The type {typeof(NotGeneratable).FullName} is not handled automatically by FsCheck. Consider using another type or writing and registering a generator for it.",
+        AreEqual($"The type {typeof(NotGeneratable).FullName} is not handled automatically by FsCheck. Consider using another type or writing a generator for it.",
             msg);
     }
 }
