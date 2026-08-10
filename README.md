@@ -28,15 +28,16 @@ public class PlusTest
 ```
 ## Run Configuration
 You can configure how your properties are run using either the ``PropertyAttribute`` on a method, or the ``PropertiesAttribute`` on a test class:
-- MaxNbOfTest
-- MaxNbOfFailedTests
+- MaxTest
+- MaxRejected
 - StartSize
 - EndSize
 - Replay
 - Verbose
 - QuietOnSuccess
+- Arbitrary 
 ```csharp
-[Properties(MaxNbOfTest = 1000)]
+[Properties(MaxTest = 1000)]
 public class PlusTest
 {
     [Property(Replay = "760375822,297103040", Verbose = true)]
